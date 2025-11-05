@@ -15,25 +15,20 @@
       theme: {
         extend: {
           colors: {
-            primary: '#0F4C81',
-            secondary: '#4A90E2',
-            accent: '#2ECC71',
-            warning: '#F39C12',
-            danger:  '#E74C3C',
-            light:   '#F7FAFC',
-            ink:     '#1A202C',
-            'primary-50': '#EBF2FA'
+            primary:'#0F4C81', secondary:'#4A90E2', accent:'#2ECC71',
+            warning:'#F39C12', danger:'#E74C3C', light:'#F7FAFC',
+            ink:'#1A202C', 'primary-50':'#EBF2FA'
           },
-          fontFamily: { inter: ['Inter','ui-sans-serif','system-ui','Segoe UI','Helvetica','Arial','sans-serif'] },
-          boxShadow:  { smx:'0 8px 30px rgba(15,76,129,.12)' }
+          fontFamily:{ inter:['Inter','ui-sans-serif','system-ui','Segoe UI','Helvetica','Arial','sans-serif'] },
+          boxShadow:{ smx:'0 8px 30px rgba(15,76,129,.12)' }
         }
       }
     }
   </script>
   <style>
-    .safe-top    { padding-top:    calc(env(safe-area-inset-top,    0px) + 12px); }
-    .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); }
-    .no-scrollbar::-webkit-scrollbar { width:0; height:0; }
+    .safe-top{padding-top:calc(env(safe-area-inset-top,0px)+12px)}
+    .safe-bottom{padding-bottom:calc(env(safe-area-inset-bottom,0px)+10px)}
+    .no-scrollbar::-webkit-scrollbar{width:0;height:0}
   </style>
 </head>
 <body class="h-full bg-slate-100 font-inter text-ink">
@@ -43,7 +38,7 @@
     <header class="safe-top px-4 pb-3 bg-gradient-to-r from-primary to-secondary text-white">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <!-- Inline SVG placeholder logo (replace with your png if you like) -->
+          <!-- Simple inline logo -->
           <svg viewBox="0 0 64 64" class="w-9 h-9 rounded-xl ring-2 ring-white/30 bg-white/10 p-1">
             <path d="M6 30 30 10l4 3 24 17v18a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V30z" fill="#bfe9ff"/>
             <path d="M12 34h14v14H12z" fill="#fff"/>
@@ -63,6 +58,9 @@
             <i class="fa-solid fa-bell text-base"></i>
             <span id="notifDot" class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-accent rounded-full"></span>
           </button>
+          <button id="btnProfile" class="p-2 rounded-full bg-white/10 hover:bg-white/20" title="Profile">
+            <i class="fa-solid fa-user text-base"></i>
+          </button>
         </div>
       </div>
     </header>
@@ -76,7 +74,7 @@
       <section data-page="#/settings"    class="page hidden p-4 space-y-4"></section>
     </main>
 
-    <!-- Bottom tab bar (single source of truth) -->
+    <!-- Bottom tab bar -->
     <footer class="safe-bottom border-t bg-white">
       <div class="grid grid-cols-5 text-[11px] text-slate-500">
         <button data-route="#/dashboard"  class="nav-btn py-2.5 flex flex-col items-center gap-1 text-primary"><i class="fa-solid fa-gauge-high text-lg"></i><span>Dashboard</span></button>
@@ -94,7 +92,7 @@
       </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal (centered) -->
     <div id="modal" class="fixed inset-0 bg-black/40 hidden flex items-center justify-center z-50">
       <div class="w-full max-w-[430px] bg-white rounded-2xl overflow-hidden">
         <div class="p-4 border-b flex items-center justify-between">
@@ -109,7 +107,7 @@
       </div>
     </div>
 
-    <!-- AI Advisor Panel -->
+    <!-- AI Advisor Panel (chatbot) -->
     <div id="aiPanel" class="fixed inset-x-0 bottom-0 z-40 hidden">
       <div class="mx-auto max-w-[430px] bg-white rounded-t-2xl shadow-xl border border-slate-200">
         <div class="px-4 py-3 border-b flex items-center justify-between">
@@ -136,22 +134,58 @@
 
   <!-- App Script -->
   <script>
-    /* ---------- helpers ---------- */
+    /* helpers */
     const $  = (s, r=document)=>r.querySelector(s);
     const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
     const store={ get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}, set(k,v){localStorage.setItem(k,JSON.stringify(v))} };
     const toast=(m='Done')=>{ const t=$('#toast'); $('#toastMsg').textContent=m; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),1600); };
 
-    /* ---------- modal ---------- */
-    const Modal=(()=>{const root=$('#modal'),title=$('#modalTitle'),body=$('#modalBody'),x=$('#modalClose'),c1=$('#modalCancel'),c2=$('#modalConfirm');let RESOLVE=null;
-      function open({titleText='Confirm',html='',confirmText='Confirm',cancelText='Cancel'}){title.textContent=titleText; body.innerHTML=html; c2.textContent=confirmText; c1.textContent=cancelText; root.classList.remove('hidden'); return new Promise(r=>RESOLVE=r);}
-      function close(res=null){root.classList.add('hidden'); if(RESOLVE) RESOLVE(res); RESOLVE=null;}
+    /* default profile if missing */
+    /* default profile (Ali) + migrate from old example */
+if(!store.get('user_profile') || store.get('user_profile').name === 'Wai Kit'){
+  store.set('user_profile',{
+    name:'Ali Ahmad', email:'ali@example.com',
+    address:'Taman Kota Masai, Johor',
+    tariff:'TNB TOU-D', pvSize:'6.6 kWp',
+    battery:'10 kWh', evModel:'EMAS 5 Premium'
+  });
+}
+
+    
+
+    /* weather mock (drives PV score) */
+    function mockWeather(){
+      const conds=[
+        {k:'Sunny',icon:'fa-sun',temp:32,cloud:0},
+        {k:'Partly Cloudy',icon:'fa-cloud-sun',temp:30,cloud:0.3},
+        {k:'Cloudy',icon:'fa-cloud',temp:28,cloud:0.7},
+        {k:'Showers',icon:'fa-cloud-rain',temp:27,cloud:0.9}
+      ];
+      const i=Math.floor(Date.now()/3600000)%conds.length; // rotate hourly
+      const c=conds[i];
+      // next 3 days (random-ish)
+      const next=Array.from({length:3},(_,d)=>({
+        day:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][(new Date().getDay()+d)%7],
+        hi:c.temp+(Math.random()*2|0),
+        lo:c.temp-6-(Math.random()*2|0),
+        icon:conds[(i+d)%conds.length].icon
+      }));
+      return { now:{ temp:c.temp, cond:c.k, icon:c.icon, cloud:c.cloud }, next };
+    }
+    function pvScoreFromCloud(cloud){ // 0=clear → 100
+      return Math.max(5, Math.round((1-cloud)*100));
+    }
+
+    /* modal */
+    const Modal=(()=>{const root=$('#modal'),title=$('#modalTitle'),body=$('#modalBody'),x=$('#modalClose'),c1=$('#modalCancel'),c2=$('#modalConfirm');let R=null;
+      function open({titleText='Confirm',html='',confirmText='Confirm',cancelText='Cancel'}){title.textContent=titleText; body.innerHTML=html; c2.textContent=confirmText; c1.textContent=cancelText; root.classList.remove('hidden'); return new Promise(r=>R=r);}
+      function close(res=null){root.classList.add('hidden'); if(R) R(res); R=null;}
       x.onclick=()=>close(false); c1.onclick=()=>close(false); c2.onclick=()=>close(true);
       root.addEventListener('click',e=>{ if(e.target===root) close(false); });
       return {open,close};
     })();
 
-    /* ---------- router ---------- */
+    /* router */
     const pages=$$('.page'); const navBtns=$$('.nav-btn');
     function setActiveRoute(hash){ if(!hash||hash==='#'||hash==='#/') hash='#/dashboard';
       pages.forEach(p=>p.classList.toggle('hidden',p.getAttribute('data-page')!==hash));
@@ -161,7 +195,7 @@
     window.addEventListener('hashchange',()=>setActiveRoute(location.hash));
     navBtns.forEach(b=>b.addEventListener('click',()=>setActiveRoute(b.getAttribute('data-route'))));
 
-    /* ---------- small UI builders ---------- */
+    /* small builders */
     const kpiCard=({title,value,icon,delta,deltaVariant='up',color='primary'})=>{
       const arrow = deltaVariant==='up'?'fa-arrow-up':'fa-arrow-down';
       const dcol  = deltaVariant==='up'?'text-accent':'text-danger';
@@ -175,9 +209,7 @@
           <i class="fa-solid ${arrow} mr-1"></i>${delta}<span class="text-slate-500 ml-2">vs yesterday</span></div>`:''}
       </div>`;
     };
-
     const progress=(n,p,c)=>`<div><div class="flex justify-between"><span>${n}</span><span>${p}%</span></div><div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-2 ${c}" style="width:${p}%"></div></div></div>`;
-
     const deviceCard=(k,n,p,sub,on=false,icon='fa-sliders')=>{
       const chk=store.get(`toggle_${k}`,on);
       return `
@@ -196,7 +228,6 @@
         </div>
       </div>`;
     };
-
     const sceneBtn=(l,i,k)=>`<button class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200" data-action="scene" data-scene="${k}"><i class="fa-solid ${i}"></i> ${l}</button>`;
     const cameraCard=(n)=>`
       <div class="bg-white rounded-xl p-3 shadow-sm">
@@ -204,7 +235,7 @@
         <div class="mt-2 flex items-center justify-between text-sm"><span class="font-medium">${n}</span><button class="text-primary" data-action="open-camera" data-camera="${n}">Live</button></div>
       </div>`;
 
-    /* ---------- pages content ---------- */
+    /* pages */
     // Dashboard
     $('[data-page="#/dashboard"]').innerHTML = `
       <section class="space-y-4">
@@ -223,6 +254,11 @@
           </div>
         </div>
 
+        <!-- Weather + PV -->
+        <div id="weatherCard" class="bg-white p-4 rounded-xl shadow-sm">
+          <!-- filled by JS -->
+        </div>
+
         <div class="grid grid-cols-2 gap-3">
           ${kpiCard({ title:'Carbon Saved', value:'12.4 kg', icon:'fa-leaf', delta:'5%', deltaVariant:'up', color:'accent' })}
           ${kpiCard({ title:'Grid Import', value:'2.1 kWh', icon:'fa-plug-circle-bolt', delta:'-9%', deltaVariant:'down', color:'secondary' })}
@@ -232,12 +268,16 @@
         <div class="bg-white p-4 rounded-xl shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <h3 class="font-semibold">AI Smart Suggestions</h3>
-            <div class="flex items-center gap-2">
-              <button class="text-primary text-sm" data-action="regen-suggestions"><i class="fa-solid fa-rotate"></i> Regenerate</button>
-              <button class="text-primary text-sm" data-action="open-recs">View All</button>
-            </div>
+            <div class="text-xs px-2 py-1 rounded bg-slate-100" id="gridNowPill">Grid: Normal</div>
           </div>
           <div id="aiSuggestWrap" class="space-y-3"></div>
+
+          <!-- Quick actions -->
+          <div class="mt-3 grid grid-cols-3 gap-2 text-xs">
+            <button class="px-3 py-2 rounded-lg border" data-action="scene" data-scene="scene_eco_noon"><i class="fa-solid fa-leaf"></i> Eco Noon</button>
+            <button class="px-3 py-2 rounded-lg border" data-action="arm-away"><i class="fa-solid fa-shield"></i> Arm Away</button>
+            <button class="px-3 py-2 rounded-lg border" data-action="goto-ev"><i class="fa-solid fa-car-battery"></i> EV Panel</button>
+          </div>
         </div>
       </section>`;
 
@@ -247,7 +287,7 @@
         <h2 class="text-lg font-semibold">Energy Management</h2>
         <div class="grid grid-cols-2 gap-3">
           ${kpiCard({ title:'Current Usage', value:'3.7 kW', icon:'fa-bolt', delta:'12%', color:'primary' })}
-          ${kpiCard({ title:'Solar Production', value:'5.2 kW', icon:'fa-sun', delta:'8%', color:'accent' })}
+          ${kpiCard({ title:'Bill Estimate (Month)', value:'RM 182', icon:'fa-file-invoice-dollar', delta:'-4%', deltaVariant:'up', color:'accent' })}
         </div>
         <div class="bg-white rounded-xl p-4 shadow-sm">
           <div class="flex items-center justify-between mb-2">
@@ -366,7 +406,7 @@
         </div>
       </section>`;
 
-    // Settings
+    // Settings (with Profile shortcut)
     const settingToggle=(k,l,d=false)=>{const on=store.get(`setting_${k}`,d);return`
       <label class="flex items-center justify-between py-3"><span class="text-sm">${l}</span>
         <span class="relative inline-flex items-center cursor-pointer">
@@ -378,46 +418,93 @@
     $('[data-page="#/settings"]').innerHTML = `
       <section class="space-y-4">
         <h2 class="text-lg font-semibold">Settings</h2>
+
+        <div class="bg-white rounded-xl p-3 shadow-sm">
+          <div class="flex items-start gap-3">
+            <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-lg">WK</div>
+            <div class="flex-1">
+              <p class="font-medium" id="profName">${store.get('user_profile').name}</p>
+              <p class="text-xs text-slate-600" id="profEmail">${store.get('user_profile').email}</p>
+              <button class="mt-2 px-3 py-1.5 rounded-lg border text-sm" id="btnEditProfile"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</button>
+            </div>
+          </div>
+        </div>
+
         <div class="bg-white rounded-xl p-3 shadow-sm divide-y">
           ${settingToggle('opt_auto_shift','Auto-shift EV charging to solar peak',true)}
           ${settingToggle('opt_hvac_opt','Auto HVAC eco adjustments',true)}
           ${settingToggle('opt_sec_alerts','Security push notifications',true)}
           ${settingToggle('opt_grid_price','Use TNB time-of-use tariffs',true)}
         </div>
+
         <button class="px-3 py-2 rounded-lg bg-secondary text-white" data-action="export-settings">Export Configuration</button>
       </section>`;
 
-    /* ---------- AI Smart Suggestions generator ---------- */
+    /* weather card render */
+    function renderWeather(){
+      const W=mockWeather();
+      const pvScore=pvScoreFromCloud(W.now.cloud);
+      const pill=$('#gridNowPill');
+      pill.textContent = pvScore>70 ? 'Grid: Low (PV High)' : (pvScore>40 ? 'Grid: Normal' : 'Grid: Peak Risk');
+      pill.className = 'text-xs px-2 py-1 rounded ' + (pvScore>70?'bg-green-100 text-green-700':pvScore>40?'bg-slate-100':'bg-amber-100 text-amber-800');
+
+      $('#weatherCard').innerHTML = `
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 text-primary flex items-center justify-center">
+              <i class="fa-solid ${W.now.icon}"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium">Johor Bahru</p>
+              <p class="text-xs text-slate-600">${W.now.cond} · ${W.now.temp}°C · PV score <span class="font-semibold">${pvScore}</span>/100</p>
+            </div>
+          </div>
+          <div class="text-xs text-slate-500">Updated just now</div>
+        </div>
+        <div class="mt-3 grid grid-cols-3 gap-2 text-center">
+          ${W.next.map(n=>`
+            <div class="p-2 rounded-lg bg-slate-50">
+              <div class="text-[11px] text-slate-500">${n.day}</div>
+              <div class="text-lg font-semibold">${n.hi}°</div>
+              <div class="text-[11px] text-slate-500">/ ${n.lo}°</div>
+              <i class="fa-solid ${n.icon} mt-1 text-slate-600"></i>
+            </div>`).join('')}
+        </div>`;
+      // remember score for suggestions
+      store.set('pv_score', pvScore);
+    }
+
+    /* AI Smart Suggestions generator (uses profile + weather) */
     function renderAISuggestions(){
       const wrap = $('#aiSuggestWrap');
       const gridPrice = store.get('setting_opt_grid_price',true);
       const hvacEco   = store.get('setting_opt_hvac_opt',true);
       const evEnable  = store.get('toggle_ev_enable',false);
       const armed     = store.get('security_armed',false);
+      const pvScore   = store.get('pv_score',70);
+      const prof      = store.get('user_profile');
 
       const cards = [];
-
-      // Example rule: solar surplus -> shift EV
+      // EV suggestion depends on PV score
       cards.push(`
-        <div class="p-3 rounded-lg border-l-4 border-accent bg-accent/5">
+        <div class="p-3 rounded-lg border-l-4 ${pvScore>60?'border-accent bg-accent/5':'border-slate-300 bg-slate-50'}">
           <div class="flex items-start justify-between">
             <div>
               <p class="font-medium">Shift EV charging</p>
-              <p class="text-slate-600 text-xs">High PV expected 12–3 PM. Schedule charging to use solar and avoid grid.</p>
-              <button class="mt-2 px-3 py-1.5 rounded-lg bg-accent text-white text-xs" data-action="schedule-ev">Schedule Now</button>
+              <p class="text-slate-600 text-xs">${pvScore>60?'High PV expected 12–3 PM. Use rooftop solar for '+prof.evModel+'.':'PV low today. Consider off-peak after 10 PM.'}</p>
+              <button class="mt-2 px-3 py-1.5 rounded-lg ${pvScore>60?'bg-accent text-white':'border'} text-xs" data-action="schedule-ev">${pvScore>60?'Schedule Now':'Plan Off-peak'}</button>
             </div>
-            <i class="fa-solid fa-car-side text-accent text-lg"></i>
+            <i class="fa-solid fa-car-side ${pvScore>60?'text-accent':'text-slate-500'} text-lg"></i>
           </div>
         </div>`);
 
-      // Example rule: TOU tariff
       if(gridPrice){
         cards.push(`
         <div class="p-3 rounded-lg border-l-4 border-primary bg-primary-50">
           <div class="flex items-start justify-between">
             <div>
-              <p class="font-medium">Avoid peak tariff 6–10 PM</p>
-              <p class="text-slate-600 text-xs">Delay dishwasher & water heater to off-peak (after 10 PM).</p>
+              <p class="font-medium">Avoid 6–10 PM peak tariff</p>
+              <p class="text-slate-600 text-xs">Delay dishwasher & water heater to off-peak.</p>
               <button class="mt-2 px-3 py-1.5 rounded-lg bg-primary text-white text-xs" data-action="apply-schedule-offpeak">Apply</button>
             </div>
             <i class="fa-solid fa-clock text-primary text-lg"></i>
@@ -425,7 +512,6 @@
         </div>`);
       }
 
-      // Example rule: HVAC eco
       if(hvacEco){
         cards.push(`
         <div class="p-3 rounded-lg border-l-4 border-secondary bg-blue-50">
@@ -440,7 +526,6 @@
         </div>`);
       }
 
-      // Example rule: security armed + motion anomaly demo
       if(armed){
         cards.push(`
         <div class="p-3 rounded-lg border-l-4 border-danger/80 bg-rose-50">
@@ -455,7 +540,6 @@
         </div>`);
       }
 
-      // EV enabled nudge
       if(!evEnable){
         cards.push(`
         <div class="p-3 rounded-lg border-l-4 border-slate-400 bg-slate-50">
@@ -473,7 +557,7 @@
       wrap.innerHTML = cards.join('');
     }
 
-    /* ---------- toggles & styling ---------- */
+    /* toggles */
     function styleToggle(inp){
       const track=inp.nextElementSibling, knob=track.nextElementSibling;
       if(inp.checked){ track.classList.replace('bg-slate-300','bg-primary'); knob.style.transform='translateX(20px)'; }
@@ -485,7 +569,7 @@
         inp.addEventListener('change',()=>{
           store.set(`toggle_${inp.getAttribute('data-toggle')}`,inp.checked);
           styleToggle(inp); toast(inp.checked?'Turned on':'Turned off');
-          renderAISuggestions(); // reflect on dashboard
+          renderAISuggestions();
         });
       });
       $$('input[data-setting]').forEach(inp=>{
@@ -498,21 +582,19 @@
       });
     }
 
-    /* ---------- actions ---------- */
+    /* actions */
     document.addEventListener('click', async (e)=>{
       const btn=e.target.closest('[data-action]'); if(!btn) return;
       const action=btn.getAttribute('data-action');
 
       if(action==='open-recs'){
         await Modal.open({titleText:'All suggestions',html:`<div class="space-y-2 text-sm">
-          <p>• Shift EV charging to 12–3 PM to use PV surplus.</p>
+          <p>• Shift EV charging to solar peak 12–3 PM when PV is high.</p>
           <p>• Avoid 6–10 PM peak tariffs; run appliances off-peak.</p>
           <p>• Raise HVAC setpoint 1 °C during day, auto-revert at 9 PM.</p>
           <p>• Arm security when everyone leaves; enable pet-filter after 10 PM.</p>
         </div>`,confirmText:'Close',cancelText:' '}); Modal.close(true);
       }
-
-      if(action==='regen-suggestions'){ renderAISuggestions(); toast('Suggestions updated'); }
 
       if(action==='apply-hvac'){
         const ok=await Modal.open({titleText:'Apply HVAC Eco',html:`<p class="text-sm">Set living room thermostat to 24 °C and enable adaptive fan?</p>`,confirmText:'Apply'});
@@ -549,6 +631,7 @@
 
       if(action==='export-settings'){
         const data={
+          profile: store.get('user_profile'),
           toggles:  Object.keys(localStorage).filter(k=>k.startsWith('toggle_')).reduce((o,k)=>(o[k]=store.get(k),o),{}),
           settings: Object.keys(localStorage).filter(k=>k.startsWith('setting_')).reduce((o,k)=>(o[k]=store.get(k),o),{}),
           ev_schedules: store.get('ev_schedules',[])
@@ -559,7 +642,7 @@
       }
     });
 
-    /* ---------- notifications ---------- */
+    /* notifications */
     $('#btnNotifications').addEventListener('click', async ()=>{
       const ok=await Modal.open({titleText:'Notifications',html:`<div class="space-y-2 text-sm">
         <div class="p-2 bg-slate-50 rounded-lg">12:05 — High PV forecast today. Consider EV charging schedule.</div>
@@ -569,7 +652,38 @@
       Modal.close(ok);
     });
 
-    /* ---------- EV schedules render (single definition) ---------- */
+    /* Profile (open from header or settings) */
+    function openProfileEditor(){
+      const p = store.get('user_profile');
+      Modal.open({
+        titleText:'User Profile',
+        confirmText:'Save',
+        html:`<div class="space-y-2 text-sm">
+          <label class="block">Name <input id="pf_name" class="mt-1 w-full border rounded-lg px-2 py-1.5" value="${p.name}"></label>
+          <label class="block">Email <input id="pf_email" class="mt-1 w-full border rounded-lg px-2 py-1.5" value="${p.email}"></label>
+          <label class="block">Address <input id="pf_addr" class="mt-1 w-full border rounded-lg px-2 py-1.5" value="${p.address}"></label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="block">Tariff <input id="pf_tariff" class="mt-1 w-full border rounded-lg px-2 py-1.5" value="${p.tariff}"></label>
+            <label class="block">PV Size <input id="pf_pv" class="mt-1 w-full border rounded-lg px-2 py-1.5" value="${p.pvSize}"></label>
+            <label class="block">Battery <input id="pf_batt" class="mt-1 w-full border rounded-lg px-2 py-1.5" value="${p.battery}"></label>
+            <label class="block">EV Model <input id="pf_ev" class="mt-1 w-full border rounded-lg px-2 py-1.5" value="${p.evModel}"></label>
+          </div>
+        </div>`
+      }).then(ok=>{
+        if(ok){
+          const np={ name:$('#pf_name').value, email:$('#pf_email').value, address:$('#pf_addr').value,
+            tariff:$('#pf_tariff').value, pvSize:$('#pf_pv').value, battery:$('#pf_batt').value, evModel:$('#pf_ev').value };
+          store.set('user_profile',np);
+          $('#profName').textContent=np.name; $('#profEmail').textContent=np.email;
+          toast('Profile saved'); renderAISuggestions();
+        }
+        Modal.close(ok);
+      });
+    }
+    $('#btnProfile').onclick=openProfileEditor;
+    $('#btnEditProfile').onclick=openProfileEditor;
+
+    /* EV schedules */
     function renderEVSchedules(){
       const wrap=$('#evSchedules'); if(!wrap) return;
       const list=store.get('ev_schedules',[]);
@@ -584,13 +698,13 @@
       });
     }
 
-    // EV enable toggle (separate change hook)
+    // EV enable toggle
     document.addEventListener('change',(e)=>{
       const inp=e.target.closest('input[data-toggle="ev_enable"]'); if(!inp) return;
       store.set('toggle_ev_enable',inp.checked); styleToggle(inp); $('#evStatus').textContent=inp.checked?'Ready':'Not charging'; toast(inp.checked?'Charger enabled':'Charger disabled'); renderAISuggestions();
     });
 
-    /* ---------- charts ---------- */
+    /* charts */
     let flowChart, sourcesChart, resizeObs;
     function renderEnergyCharts(range='week'){
       const elFlow=$('#chartFlow'), elSrc=$('#chartSources'); if(!elFlow||!elSrc) return;
@@ -613,11 +727,11 @@
       });
     }
 
-    /* ---------- AI Advisor (rule-based demo) ---------- */
+    /* AI Advisor (rule-based demo) */
     const aiPanel=$('#aiPanel'), aiClose=$('#aiClose'), aiBtn=$('#btnAI'), aiChat=$('#aiChat'), aiInput=$('#aiInput'), aiSend=$('#aiSend');
     aiBtn.onclick=()=>{ aiPanel.classList.remove('hidden'); aiInput.focus(); };
     aiClose.onclick=()=>aiPanel.classList.add('hidden');
-    function aiReply(text){ // append bot bubble
+    function aiReply(text){
       const row=document.createElement('div'); row.className='flex items-start gap-2';
       row.innerHTML=`<div class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center"><i class="fa-solid fa-robot text-xs"></i></div>
                      <div class="bg-slate-100 rounded-xl px-3 py-2">${text}</div>`;
@@ -650,13 +764,26 @@
     }
     aiSend.onclick=aiSendNow; aiInput.addEventListener('keydown',e=>{ if(e.key==='Enter') aiSendNow(); });
 
-    /* ---------- init ---------- */
-    function renderEVSchedulesOnce(){ renderEVSchedules(); } // wrapper to avoid redeclare issues
+    /* AUTO REFRESHERS */
+    function refreshEverything(){
+      renderWeather();
+      renderAISuggestions();
+    }
+    // initial & timer (every 5 minutes)
+    let suggestTimer=null;
+    function startTimers(){
+      clearInterval(suggestTimer);
+      suggestTimer=setInterval(refreshEverything, 5*60*1000);
+      document.addEventListener('visibilitychange',()=>{ if(!document.hidden) refreshEverything(); });
+    }
+
+    /* init */
     function init(){
       wireToggles();
-      renderAISuggestions();
-      renderEVSchedulesOnce();
+      renderEVSchedules();
       setActiveRoute(location.hash||'#/dashboard');
+      refreshEverything();
+      startTimers();
     }
     window.addEventListener('load', init);
   </script>
