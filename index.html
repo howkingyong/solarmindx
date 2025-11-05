@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>SolarMind X — Smart Energy Ecosystem</title>
 
-  <!-- Tailwind + Icons + ECharts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
   <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
-
+<!-- App icon / favicon -->
+<link rel="icon" type="image/png" href="./assets/img/solarmindx-logo.jpeg?v=1" />
   <script>
-    // Tailwind theme (SolarMind X palette)
     tailwind.config = {
       theme: {
         extend: {
@@ -21,90 +20,63 @@
             accent: '#2ECC71',
             warning: '#F39C12',
             danger: '#E74C3C',
-            dark: '#0f172a',
             light: '#F7FAFC',
             ink: '#1A202C',
             'primary-50': '#EBF2FA'
           },
-          fontFamily: {
-            inter: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Helvetica', 'Arial', 'sans-serif']
-          },
-          boxShadow: {
-            'smx': '0 8px 30px rgba(15, 76, 129, .12)'
-          }
+          fontFamily: { inter: ['Inter','ui-sans-serif','system-ui','Segoe UI','Helvetica','Arial','sans-serif'] },
+          boxShadow: { smx:'0 8px 30px rgba(15,76,129,.12)' }
         }
       }
     }
   </script>
   <style>
-    /* iOS-like safe area handling */
     .safe-top { padding-top: calc(env(safe-area-inset-top, 0px) + 12px); }
     .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); }
-    /* Hide default scrollbar on the app pane */
-    .no-scrollbar::-webkit-scrollbar { width: 0; height: 0; }
+    .no-scrollbar::-webkit-scrollbar { width:0; height:0; }
   </style>
 </head>
 <body class="h-full bg-slate-100 font-inter text-ink">
-  <!-- App Frame (mobile-first, perfect on iPhone Pro Max width ~430px) -->
-  <div id="app"
-       class="mx-auto max-w-[430px] h-[100vh] bg-white shadow-smx relative flex flex-col rounded-none md:rounded-2xl overflow-hidden">
+  <div id="app" class="mx-auto max-w-[430px] h-[100vh] bg-white shadow-smx relative flex flex-col overflow-hidden">
 
-    <!-- Top Bar -->
+    <!-- Header -->
     <header class="safe-top px-4 pb-3 bg-gradient-to-r from-primary to-secondary text-white">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="https://dummyimage.com/64x64/0F4C81/ffffff.png&text=SX"
-               alt="SolarMind X"
-               class="w-9 h-9 rounded-xl ring-2 ring-white/30 object-cover" />
+          <!-- Header logo -->
+<img
+  src="./assets/img/solarmindx-logo.png?v=1"
+  alt="SolarMind X Logo"
+  class="w-10 h-10 object-contain"
+  onerror="this.onerror=null; this.src='https://dummyimage.com/40x40/0F4C81/ffffff.png&text=SX';"
+/>
+     class="w-10 h-10 object-contain" />
+
           <div>
             <h1 class="text-lg font-semibold leading-tight">SolarMind X</h1>
             <p class="text-white/80 text-xs -mt-0.5">Smart Energy Ecosystem</p>
           </div>
         </div>
-        <button id="btnNotifications"
-                class="relative p-2 rounded-full bg-white/10 hover:bg-white/20 transition">
+        <button id="btnNotifications" class="relative p-2 rounded-full bg-white/10 hover:bg-white/20 transition">
           <i class="fa-solid fa-bell text-base"></i>
           <span id="notifDot" class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-accent rounded-full"></span>
         </button>
       </div>
-
-      <!-- Tab Nav -->
-      <nav class="mt-3">
-        <div class="grid grid-cols-5 gap-1 text-xs font-medium">
-          <button data-route="#/dashboard" class="tab-btn route-active px-2 py-2 rounded-lg text-center bg-white/15 hover:bg-white/25">
-            <i class="fa-solid fa-gauge-high text-sm block mb-0.5"></i>Home
-          </button>
-          <button data-route="#/energy" class="tab-btn px-2 py-2 rounded-lg text-center hover:bg-white/15">
-            <i class="fa-solid fa-bolt text-sm block mb-0.5"></i>Energy
-          </button>
-          <button data-route="#/smart-home" class="tab-btn px-2 py-2 rounded-lg text-center hover:bg-white/15">
-            <i class="fa-solid fa-house-signal text-sm block mb-0.5"></i>Home
-          </button>
-          <button data-route="#/ev" class="tab-btn px-2 py-2 rounded-lg text-center hover:bg-white/15">
-            <i class="fa-solid fa-car-side text-sm block mb-0.5"></i>EV
-          </button>
-          <button data-route="#/security" class="tab-btn px-2 py-2 rounded-lg text-center hover:bg-white/15">
-            <i class="fa-solid fa-shield-halved text-sm block mb-0.5"></i>Sec
-          </button>
-        </div>
-      </nav>
     </header>
 
-    <!-- Content Pane -->
+    <!-- Content -->
     <main id="pageContainer" class="flex-1 overflow-y-auto no-scrollbar bg-slate-50">
-      <!-- Pages mount here -->
       <section data-page="#/dashboard" class="page p-4 space-y-4"></section>
       <section data-page="#/energy" class="page hidden p-4 space-y-4"></section>
       <section data-page="#/smart-home" class="page hidden p-4 space-y-4"></section>
       <section data-page="#/ev" class="page hidden p-4 space-y-4"></section>
-      <section data-page="#/security" class="page hidden p-4 space-y-4"></section>
       <section data-page="#/settings" class="page hidden p-4 space-y-4"></section>
     </main>
 
-    <!-- Bottom Bar -->
+    <!-- Bottom tab bar -->
     <footer class="safe-bottom border-t bg-white">
       <div class="grid grid-cols-5 text-[11px] text-slate-500">
-        <button data-route="#/dashboard" class="nav-btn py-2.5 flex flex-col items-center gap-1">
+        <button data-route="#/dashboard" class="nav-btn py-2.5 flex flex-col items-center gap-1 text-primary">
           <i class="fa-solid fa-gauge-high text-lg"></i><span>Dashboard</span>
         </button>
         <button data-route="#/energy" class="nav-btn py-2.5 flex flex-col items-center gap-1">
@@ -129,14 +101,12 @@
       </div>
     </div>
 
-    <!-- Simple Modal -->
-    <div id="modal" class="fixed inset-0 bg-black/40 hidden items-end md:items-center justify-center z-50">
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 bg-black/40 hidden flex items-center justify-center z-50">
       <div class="w-full max-w-[430px] bg-white rounded-t-2xl md:rounded-2xl overflow-hidden">
         <div class="p-4 border-b flex items-center justify-between">
           <h3 id="modalTitle" class="font-semibold">Title</h3>
-          <button id="modalClose" class="p-2 rounded-lg hover:bg-slate-100">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
+          <button id="modalClose" class="p-2 rounded-lg hover:bg-slate-100"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="modalBody" class="p-4 space-y-3 text-sm"></div>
         <div class="p-3 border-t flex justify-end gap-2">
@@ -149,102 +119,73 @@
 
   <!-- App Script -->
   <script>
-    // ---------- Utilities ----------
-    const $ = (sel, root = document) => root.querySelector(sel);
-    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+    // Helpers
+    const $ = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+    const store = { get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}, set(k,v){localStorage.setItem(k,JSON.stringify(v))} };
+    function toast(m='Done'){ const t=$('#toast'); $('#toastMsg').textContent=m; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),1600); }
 
-    const store = {
-      get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
-      set(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
-    };
-
-    function toast(msg = 'Done') {
-      const el = $('#toast'); $('#toastMsg').textContent = msg;
-      el.classList.remove('hidden'); setTimeout(() => el.classList.add('hidden'), 1600);
-    }
-
-    // Modal simple API
-    const Modal = (() => {
-      const root = $('#modal');
-      const title = $('#modalTitle');
-      const body = $('#modalBody');
-      const btnClose = $('#modalClose');
-      const btnCancel = $('#modalCancel');
-      const btnConfirm = $('#modalConfirm');
-      let resolveFn = null;
-
-      function open({ titleText = 'Confirm', html = '', confirmText = 'Confirm', cancelText = 'Cancel' }) {
-        title.textContent = titleText;
-        body.innerHTML = html;
-        btnConfirm.textContent = confirmText;
-        btnCancel.textContent = cancelText;
-        root.classList.remove('hidden');
-        return new Promise((resolve) => {
-          resolveFn = resolve;
-        });
-      }
-      function close(result = null) {
-        root.classList.add('hidden');
-        if (resolveFn) resolveFn(result);
-        resolveFn = null;
-      }
-      btnClose.onclick = () => close(false);
-      btnCancel.onclick = () => close(false);
-      btnConfirm.onclick = () => close(true);
-      root.addEventListener('click', (e) => { if (e.target === root) close(false); });
-      return { open, close };
+    // Modal
+    const Modal=(()=>{const root=$('#modal'),title=$('#modalTitle'),body=$('#modalBody'),cX=$('#modalClose'),cA=$('#modalCancel'),cC=$('#modalConfirm');let R=null;
+      function open({titleText='Confirm',html='',confirmText='Confirm',cancelText='Cancel'}){title.textContent=titleText; body.innerHTML=html; cC.textContent=confirmText; cA.textContent=cancelText; root.classList.remove('hidden'); return new Promise(r=>R=r);}
+      function close(res=null){root.classList.add('hidden'); if(R) R(res); R=null;}
+      cX.onclick=()=>close(false); cA.onclick=()=>close(false); cC.onclick=()=>close(true); root.addEventListener('click',e=>{if(e.target===root) close(false);});
+      return {open,close};
     })();
 
-    // ---------- Router ----------
-    const pages = $$('.page');
-    const tabBtns = $$('.tab-btn');
-    const navBtns = $$('.nav-btn');
-
-    function setActiveRoute(hash) {
-      // default
-      if (!hash || hash === '#/' || hash === '#') hash = '#/dashboard';
-
-      pages.forEach(p => p.classList.toggle('hidden', p.getAttribute('data-page') !== hash));
-      tabBtns.forEach(b => b.classList.toggle('route-active', b.getAttribute('data-route') === hash));
-      navBtns.forEach(b => b.classList.toggle('text-primary', b.getAttribute('data-route') === hash));
-      location.hash = hash;
-      if (hash === '#/energy') setTimeout(renderEnergyCharts, 50);
+    // Router
+    const pages=$$('.page'); const navBtns=$$('.nav-btn');
+    function setActiveRoute(hash){ if(!hash||hash==='#'||hash==='#/') hash='#/dashboard';
+      pages.forEach(p=>p.classList.toggle('hidden',p.getAttribute('data-page')!==hash));
+      navBtns.forEach(b=>b.classList.toggle('text-primary',b.getAttribute('data-route')===hash));
+      location.hash=hash; if(hash==='#/energy') setTimeout(renderEnergyCharts,50);
     }
+    window.addEventListener('hashchange',()=>setActiveRoute(location.hash));
+    navBtns.forEach(b=>b.addEventListener('click',()=>setActiveRoute(b.getAttribute('data-route'))));
 
-    window.addEventListener('hashchange', () => setActiveRoute(location.hash));
-    $$('.tab-btn, .nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => setActiveRoute(btn.getAttribute('data-route')));
-    });
-
-    // ---------- Pages Content ----------
+    // UI builders
     function kpiCard({ title, value, icon, delta, deltaVariant='up', color='primary' }) {
-      const arrow = deltaVariant === 'up' ? 'fa-arrow-up' : 'fa-arrow-down';
-      const deltaColor = deltaVariant === 'up' ? 'text-accent' : 'text-danger';
+      const arrow = deltaVariant==='up'?'fa-arrow-up':'fa-arrow-down';
+      const deltaColor = deltaVariant==='up'?'text-accent':'text-danger';
       return `
-        <div class="bg-white rounded-xl p-4 shadow-sm">
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="text-slate-500 text-xs">${title}</p>
-              <div class="mt-1 flex items-end gap-2">
-                <h3 class="text-2xl font-semibold">${value}</h3>
-              </div>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-${color}-50 text-${color} flex items-center justify-center">
-              <i class="fa-solid ${icon}"></i>
-            </div>
-          </div>
-          ${delta !== undefined ? `
-          <div class="mt-3 text-xs flex items-center ${deltaColor}">
-            <i class="fa-solid ${arrow} mr-1"></i> ${delta}
-            <span class="text-slate-500 ml-2">vs yesterday</span>
-          </div>` : ``}
+      <div class="bg-white rounded-xl p-4 shadow-sm">
+        <div class="flex items-start justify-between">
+          <div><p class="text-slate-500 text-xs">${title}</p><h3 class="text-2xl font-semibold mt-1">${value}</h3></div>
+          <div class="w-10 h-10 rounded-xl bg-${color}-50 text-${color} flex items-center justify-center"><i class="fa-solid ${icon}"></i></div>
         </div>
-      `;
-    }
+        ${delta!==undefined?`<div class="mt-3 text-xs flex items-center ${deltaColor}">
+          <i class="fa-solid ${arrow} mr-1"></i>${delta}<span class="text-slate-500 ml-2">vs yesterday</span></div>`:''}
+      </div>`; }
 
-    // DASHBOARD
-    const pageDashboard = $('[data-page="#/dashboard"]');
-    pageDashboard.innerHTML = `
+    function progress(n,p,c){return`<div><div class="flex justify-between"><span>${n}</span><span>${p}%</span></div><div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-2 ${c}" style="width:${p}%"></div></div></div>`;}
+
+    function deviceCard(k,n,p,sub,on=false,icon='fa-sliders'){const chk=store.get(`toggle_${k}`,on);return`
+      <div class="bg-white rounded-xl p-3 shadow-sm">
+        <div class="flex items-start justify-between">
+          <div><p class="font-medium text-sm">${n}</p><p class="text-[11px] text-slate-500">${p}</p></div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" data-toggle="${k}" class="sr-only" ${chk?'checked':''}>
+            <span class="w-10 h-5 bg-slate-300 rounded-full transition-colors"></span>
+            <span class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow transition-transform"></span>
+          </label>
+        </div>
+        <div class="flex items-center justify-between mt-3">
+          <div class="flex items-center gap-2 text-sm"><i class="fa-solid ${icon} text-slate-500"></i><span>${sub}</span></div>
+          <button class="text-primary text-sm" data-action="open-${k}"><i class="fa-solid fa-sliders"></i></button>
+        </div>
+      </div>`;}
+
+    function sceneBtn(l,i,k){return`<button class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200" data-action="scene" data-scene="${k}"><i class="fa-solid ${i}"></i> ${l}</button>`;}
+
+    function cameraCard(n){return`
+      <div class="bg-white rounded-xl p-3 shadow-sm">
+        <div class="aspect-video bg-slate-200 rounded-lg flex items-center justify-center text-slate-500"><i class="fa-solid fa-video"></i></div>
+        <div class="mt-2 flex items-center justify-between text-sm"><span class="font-medium">${n}</span><button class="text-primary" data-action="open-camera" data-camera="${n}">Live</button></div>
+      </div>`;}
+
+    // Pages
+    // Dashboard
+    $('[data-page="#/dashboard"]').innerHTML=`
       <section class="space-y-4">
         <div class="bg-gradient-to-br from-primary to-secondary rounded-2xl p-4 text-white shadow-sm">
           <div class="flex items-center justify-between">
@@ -252,9 +193,7 @@
               <h2 class="text-lg font-semibold">Welcome home</h2>
               <p class="text-white/80 text-sm">Unified control of energy, EV and security.</p>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center">
-              <i class="fa-solid fa-solar-panel text-xl"></i>
-            </div>
+            <div class="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center"><i class="fa-solid fa-solar-panel text-xl"></i></div>
           </div>
           <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
             <div class="bg-white/10 rounded-lg p-2"><div class="text-sm font-semibold">3.7 kW</div><div class="text-white/80">Usage</div></div>
@@ -296,19 +235,16 @@
             </div>
           </div>
         </div>
-      </section>
-    `;
+      </section>`;
 
-    // ENERGY
-    const pageEnergy = $('[data-page="#/energy"]');
-    pageEnergy.innerHTML = `
+    // Energy
+    $('[data-page="#/energy"]').innerHTML=`
       <section class="space-y-4">
         <h2 class="text-lg font-semibold">Energy Management</h2>
         <div class="grid grid-cols-2 gap-3">
           ${kpiCard({ title:'Current Usage', value:'3.7 kW', icon:'fa-bolt', delta:'12%', color:'primary' })}
           ${kpiCard({ title:'Solar Production', value:'5.2 kW', icon:'fa-sun', delta:'8%', color:'accent' })}
         </div>
-
         <div class="bg-white rounded-xl p-4 shadow-sm">
           <div class="flex items-center justify-between mb-2">
             <h3 class="font-semibold">Energy Flow</h3>
@@ -320,7 +256,6 @@
           </div>
           <div id="chartFlow" class="w-full h-56"></div>
         </div>
-
         <div class="grid grid-cols-3 gap-3">
           <div class="bg-white rounded-xl p-3 shadow-sm col-span-1">
             <h4 class="font-semibold text-sm mb-2">Sources</h4>
@@ -337,521 +272,233 @@
               <button class="text-primary text-xs" data-action="view-consumption">View All</button>
             </div>
             <div class="space-y-2 text-xs">
-              ${progress('HVAC', 32, 'bg-primary')}
-              ${progress('EV Charging', 25, 'bg-secondary')}
-              ${progress('Lighting', 15, 'bg-warning')}
-              ${progress('Appliances', 18, 'bg-purple-500')}
-              ${progress('Other', 10, 'bg-slate-400')}
+              ${progress('HVAC',32,'bg-primary')}
+              ${progress('EV Charging',25,'bg-secondary')}
+              ${progress('Lighting',15,'bg-warning')}
+              ${progress('Appliances',18,'bg-purple-500')}
+              ${progress('Other',10,'bg-slate-400')}
             </div>
           </div>
         </div>
-      </section>
-    `;
-    function progress(name, pct, cls) {
-      return `
+      </section>`;
+
+    // Smart Home  (Security merged here)
+    $('[data-page="#/smart-home"]').innerHTML=`
+      <section class="space-y-6">
         <div>
-          <div class="flex justify-between"><span>${name}</span><span>${pct}%</span></div>
-          <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-            <div class="h-2 ${cls}" style="width:${pct}%"></div>
+          <h2 class="text-lg font-semibold">Smart Home</h2>
+          <div class="mt-3 grid grid-cols-2 gap-3">
+            ${deviceCard('thermostat','Smart Thermostat','Living Room','24 °C',true)}
+            ${deviceCard('lights_kitchen','Smart Lights','Kitchen','80% Brightness',true,'fa-lightbulb')}
+            ${deviceCard('water_heater','Water Heater','Utility','120 °F',true,'fa-faucet-drip')}
+            ${deviceCard('plug_tv','Smart Plug','TV Console','On',false,'fa-plug')}
           </div>
-        </div>
-      `;
-    }
-
-    // SMART HOME
-    const pageHome = $('[data-page="#/smart-home"]');
-    pageHome.innerHTML = `
-      <section class="space-y-4">
-        <h2 class="text-lg font-semibold">Smart Home</h2>
-
-        <div class="grid grid-cols-2 gap-3">
-          ${deviceCard('thermostat', 'Smart Thermostat', 'Living Room', '72 °F', true)}
-          ${deviceCard('lights_kitchen', 'Smart Lights', 'Kitchen', '80% Brightness', true, 'fa-lightbulb')}
-          ${deviceCard('water_heater', 'Water Heater', 'Utility', '120 °F', true, 'fa-faucet-drip')}
-          ${deviceCard('plug_tv', 'Smart Plug', 'TV Console', 'On', false, 'fa-plug')}
         </div>
 
         <div class="bg-white rounded-xl p-4 shadow-sm">
           <div class="flex items-center justify-between">
-            <div>
-              <h3 class="font-semibold">Scenes</h3>
-              <p class="text-xs text-slate-600">Energy-aware automations</p>
-            </div>
-            <button class="px-3 py-1.5 rounded-lg border text-sm" data-action="manage-scenes">
-              Manage
-            </button>
+            <div><h3 class="font-semibold">Scenes</h3><p class="text-xs text-slate-600">Energy-aware automations</p></div>
+            <button class="px-3 py-1.5 rounded-lg border text-sm" data-action="manage-scenes">Manage</button>
           </div>
           <div class="mt-3 grid grid-cols-3 gap-2 text-xs">
-            ${sceneBtn('Eco Noon', 'fa-sun', 'scene_eco_noon')}
-            ${sceneBtn('Away', 'fa-person-walking-arrow-right', 'scene_away')}
-            ${sceneBtn('Night', 'fa-moon', 'scene_night')}
+            ${sceneBtn('Eco Noon','fa-sun','scene_eco_noon')}
+            ${sceneBtn('Away','fa-person-walking-arrow-right','scene_away')}
+            ${sceneBtn('Night','fa-moon','scene_night')}
           </div>
         </div>
-      </section>
-    `;
-    function deviceCard(key, name, place, subtitle, on=false, icon='fa-sliders') {
-      const checked = store.get(`toggle_${key}`, on);
-      return `
-        <div class="bg-white rounded-xl p-3 shadow-sm">
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="font-medium text-sm">${name}</p>
-              <p class="text-[11px] text-slate-500">${place}</p>
+
+        <!-- SECURITY SECTION (moved under Smart Home) -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold">Security</h3>
+            <div class="flex items-center gap-2">
+              <button class="px-3 py-2 rounded-lg border" data-action="disarm">Disarm</button>
+              <button class="px-3 py-2 rounded-lg bg-danger text-white" data-action="arm-away">Arm Away</button>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" data-toggle="${key}" class="sr-only" ${checked ? 'checked' : ''}>
-              <span class="w-10 h-5 bg-slate-300 rounded-full transition-colors"></span>
-              <span class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow transition-transform"></span>
-            </label>
           </div>
-          <div class="flex items-center justify-between mt-3">
-            <div class="flex items-center gap-2 text-sm">
-              <i class="fa-solid ${icon} text-slate-500"></i>
-              <span>${subtitle}</span>
+          <div class="bg-white rounded-xl p-4 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium">System Status</p>
+                <p id="secStatus" class="text-xs text-slate-600">${store.get('security_armed',false)?'Armed (Away)':'Disarmed'}</p>
+              </div>
+              <i class="fa-solid fa-shield-halved text-primary text-xl"></i>
             </div>
-            <button class="text-primary text-sm" data-action="open-${key}">
-              <i class="fa-solid fa-sliders"></i>
-            </button>
           </div>
-        </div>`;
-    }
-    function sceneBtn(label, icon, key) {
-      return `<button class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200"
-                data-action="scene" data-scene="${key}">
-                <i class="fa-solid ${icon}"></i> ${label}
-              </button>`;
-    }
+          <div class="grid grid-cols-2 gap-3">
+            ${cameraCard('Front Door')}
+            ${cameraCard('Garage')}
+            ${cameraCard('Backyard')}
+            ${cameraCard('Living Room')}
+          </div>
+        </div>
+      </section>`;
 
     // EV
-    const pageEV = $('[data-page="#/ev"]');
-    pageEV.innerHTML = `
+    $('[data-page="#/ev"]').innerHTML=`
       <section class="space-y-4">
         <h2 class="text-lg font-semibold">EV Charging</h2>
         <div class="bg-white rounded-xl p-4 shadow-sm space-y-3">
           <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium">Charger · Garage</p>
-              <p id="evStatus" class="text-xs text-slate-600">Not charging</p>
-            </div>
+            <div><p class="text-sm font-medium">Charger · Garage</p><p id="evStatus" class="text-xs text-slate-600">Not charging</p></div>
             <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" class="sr-only" data-toggle="ev_enable" ${store.get('toggle_ev_enable', false)?'checked':''}>
+              <input type="checkbox" class="sr-only" data-toggle="ev_enable" ${store.get('toggle_ev_enable',false)?'checked':''}>
               <span class="w-10 h-5 bg-slate-300 rounded-full transition-colors"></span>
               <span class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow transition-transform"></span>
             </label>
           </div>
           <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="p-2 rounded-lg bg-slate-50">
-              <div class="text-xl font-semibold">41%</div>
-              <div class="text-[11px] text-slate-500">Battery</div>
-            </div>
-            <div class="p-2 rounded-lg bg-slate-50">
-              <div class="text-xl font-semibold">7.2 kW</div>
-              <div class="text-[11px] text-slate-500">Max Rate</div>
-            </div>
-            <div class="p-2 rounded-lg bg-slate-50">
-              <div class="text-xl font-semibold">12–3 PM</div>
-              <div class="text-[11px] text-slate-500">Solar Peak</div>
-            </div>
+            <div class="p-2 rounded-lg bg-slate-50"><div class="text-xl font-semibold">41%</div><div class="text-[11px] text-slate-500">Battery</div></div>
+            <div class="p-2 rounded-lg bg-slate-50"><div class="text-xl font-semibold">7.2 kW</div><div class="text-[11px] text-slate-500">Max Rate</div></div>
+            <div class="p-2 rounded-lg bg-slate-50"><div class="text-xl font-semibold">12–3 PM</div><div class="text-[11px] text-slate-500">Solar Peak</div></div>
           </div>
           <div class="flex gap-2">
             <button class="flex-1 px-3 py-2 rounded-lg border" data-action="start-charge">Start Charge</button>
             <button class="flex-1 px-3 py-2 rounded-lg bg-primary text-white" data-action="schedule-ev">Schedule</button>
           </div>
         </div>
-
         <div class="bg-white rounded-xl p-4 shadow-sm">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold">Schedules</h3>
-            <button class="text-primary text-sm" data-action="new-ev-schedule">New</button>
-          </div>
+          <div class="flex items-center justify-between"><h3 class="font-semibold">Schedules</h3><button class="text-primary text-sm" data-action="new-ev-schedule">New</button></div>
           <div id="evSchedules" class="mt-2 space-y-2 text-sm"></div>
         </div>
-      </section>
-    `;
+      </section>`;
 
-    // SECURITY
-    const pageSec = $('[data-page="#/security"]');
-    pageSec.innerHTML = `
-      <section class="space-y-4">
-        <h2 class="text-lg font-semibold">Security</h2>
-        <div class="bg-white rounded-xl p-4 shadow-sm">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="font-medium">Status</p>
-              <p id="secStatus" class="text-xs text-slate-600">${store.get('security_armed', false) ? 'Armed (Away)' : 'Disarmed'}</p>
-            </div>
-            <div class="flex gap-2">
-              <button class="px-3 py-2 rounded-lg border" data-action="disarm">Disarm</button>
-              <button class="px-3 py-2 rounded-lg bg-danger text-white" data-action="arm-away">Arm Away</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          ${cameraCard('Front Door')}
-          ${cameraCard('Garage')}
-          ${cameraCard('Backyard')}
-          ${cameraCard('Living Room')}
-        </div>
-      </section>
-    `;
-    function cameraCard(name) {
-      return `
-        <div class="bg-white rounded-xl p-3 shadow-sm">
-          <div class="aspect-video bg-slate-200 rounded-lg flex items-center justify-center text-slate-500">
-            <i class="fa-solid fa-video"></i>
-          </div>
-          <div class="mt-2 flex items-center justify-between text-sm">
-            <span class="font-medium">${name}</span>
-            <button class="text-primary" data-action="open-camera" data-camera="${name}">Live</button>
-          </div>
-        </div>`;
-    }
-
-    // SETTINGS
-    const pageSettings = $('[data-page="#/settings"]');
-    pageSettings.innerHTML = `
+    // Settings
+    $('[data-page="#/settings"]').innerHTML=`
       <section class="space-y-4">
         <h2 class="text-lg font-semibold">Settings</h2>
         <div class="bg-white rounded-xl p-3 shadow-sm divide-y">
-          ${settingToggle('opt_auto_shift', 'Auto-shift EV charging to solar peak', true)}
-          ${settingToggle('opt_hvac_opt', 'Auto HVAC eco adjustments', true)}
-          ${settingToggle('opt_sec_alerts', 'Security push notifications', true)}
-          ${settingToggle('opt_grid_price', 'Use TNB time-of-use tariffs', true)}
+          ${settingToggle('opt_auto_shift','Auto-shift EV charging to solar peak',true)}
+          ${settingToggle('opt_hvac_opt','Auto HVAC eco adjustments',true)}
+          ${settingToggle('opt_sec_alerts','Security push notifications',true)}
+          ${settingToggle('opt_grid_price','Use TNB time-of-use tariffs',true)}
         </div>
-        <button class="px-3 py-2 rounded-lg bg-secondary text-white" data-action="export-settings">
-          Export Configuration
-        </button>
-      </section>
-    `;
-    function settingToggle(key, label, def=false) {
-      const on = store.get(`setting_${key}`, def);
-      return `
-        <label class="flex items-center justify-between py-3">
-          <span class="text-sm">${label}</span>
-          <span class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" class="sr-only" data-setting="${key}" ${on?'checked':''}>
-            <span class="w-10 h-5 bg-slate-300 rounded-full transition-colors"></span>
-            <span class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow transition-transform"></span>
-          </span>
-        </label>`;
-    }
+        <button class="px-3 py-2 rounded-lg bg-secondary text-white" data-action="export-settings">Export Configuration</button>
+      </section>`;
+    function settingToggle(k,l,d=false){const on=store.get(`setting_${k}`,d);return`
+      <label class="flex items-center justify-between py-3"><span class="text-sm">${l}</span>
+        <span class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only" data-setting="${k}" ${on?'checked':''}>
+          <span class="w-10 h-5 bg-slate-300 rounded-full transition-colors"></span>
+          <span class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow transition-transform"></span>
+        </span>
+      </label>`;}
 
-    // ---------- Interactions & State ----------
-    function wireToggles() {
-      // device toggles
-      $$('input[data-toggle]').forEach(inp => {
-        const key = inp.getAttribute('data-toggle');
-        // init visuals
+    // Toggles
+    function wireToggles(){
+      $$('input[data-toggle]').forEach(inp=>{
         styleToggle(inp);
-        // persist
-        inp.addEventListener('change', () => {
-          store.set(`toggle_${key}`, inp.checked);
-          styleToggle(inp);
-          toast(inp.checked ? 'Turned on' : 'Turned off');
-        });
+        inp.addEventListener('change',()=>{store.set(`toggle_${inp.getAttribute('data-toggle')}`,inp.checked); styleToggle(inp); toast(inp.checked?'Turned on':'Turned off');});
       });
-      // settings toggles
-      $$('input[data-setting]').forEach(inp => {
-        const key = inp.getAttribute('data-setting');
+      $$('input[data-setting]').forEach(inp=>{
         styleToggle(inp);
-        inp.addEventListener('change', () => {
-          store.set(`setting_${key}`, inp.checked);
-          styleToggle(inp);
-          toast('Setting saved');
-        });
+        inp.addEventListener('change',()=>{store.set(`setting_${inp.getAttribute('data-setting')}`,inp.checked); styleToggle(inp); toast('Setting saved');});
       });
     }
-    function styleToggle(inp) {
-      const track = inp.nextElementSibling;
-      const knob = track.nextElementSibling;
-      if (inp.checked) {
-        track.classList.remove('bg-slate-300'); track.classList.add('bg-primary');
-        knob.style.transform = 'translateX(20px)';
-      } else {
-        track.classList.add('bg-slate-300'); track.classList.remove('bg-primary');
-        knob.style.transform = 'translateX(0px)';
-      }
-    }
+    function styleToggle(inp){const track=inp.nextElementSibling, knob=track.nextElementSibling; if(inp.checked){track.classList.replace('bg-slate-300','bg-primary'); knob.style.transform='translateX(20px)';} else {track.classList.add('bg-slate-300'); track.classList.remove('bg-primary'); knob.style.transform='translateX(0px)';}}
 
-    // Buttons & actions (delegated)
-    document.addEventListener('click', async (e) => {
-      const btn = e.target.closest('[data-action], [data-route]');
-      if (!btn) return;
+    // Actions
+    document.addEventListener('click', async (e)=>{
+      const btn=e.target.closest('[data-action]'); if(!btn) return;
+      const action=btn.getAttribute('data-action');
 
-      const action = btn.getAttribute('data-action');
-      if (!action) return;
+      if(action==='open-recs'){ await Modal.open({titleText:'Recommendations',html:`<div class="space-y-2"><div class="p-2 rounded-lg bg-accent/5 border-l-4 border-accent"><p class="text-sm font-medium">Shift EV charging to 12–3 PM</p><p class="text-xs text-slate-600">Use rooftop PV surplus to avoid grid import.</p></div><div class="p-2 rounded-lg bg-primary-50 border-l-4 border-primary"><p class="text-sm font-medium">Raise HVAC setpoint 1 °C</p><p class="text-xs text-slate-600">Cuts compressor runtime while staying comfy.</p></div></div>`,confirmText:'Okay'}); Modal.close(true); }
 
-      if (action === 'open-recs') {
-        await Modal.open({
-          titleText: 'Recommendations',
-          html: `
-            <div class="space-y-2">
-              <div class="p-2 rounded-lg bg-accent/5 border-l-4 border-accent">
-                <p class="text-sm font-medium">Shift EV charging to 12–3 PM</p>
-                <p class="text-xs text-slate-600">Use rooftop PV surplus to avoid grid import.</p>
-              </div>
-              <div class="p-2 rounded-lg bg-primary-50 border-l-4 border-primary">
-                <p class="text-sm font-medium">Raise HVAC setpoint 1 °C</p>
-                <p class="text-xs text-slate-600">Cuts compressor runtime while staying comfy.</p>
-              </div>
-            </div>`,
-          confirmText: 'Okay'
-        });
-        Modal.close(true);
-      }
+      if(action==='apply-hvac'){ const ok=await Modal.open({titleText:'Apply HVAC Eco',html:`<p class="text-sm">Set living room thermostat to 24 °C and enable adaptive fan?</p>`,confirmText:'Apply'}); Modal.close(ok); if(ok) toast('HVAC optimized'); }
 
-      if (action === 'apply-hvac') {
-        const ok = await Modal.open({
-          titleText: 'Apply HVAC Eco',
-          html: `<p class="text-sm">Set living room thermostat to 24 °C and enable adaptive fan?</p>`,
-          confirmText: 'Apply'
-        });
-        Modal.close(ok);
-        if (ok) toast('HVAC optimized');
-      }
+      if(action==='schedule-ev'||action==='new-ev-schedule'){ const ok=await Modal.open({titleText:'Schedule EV Charging',html:`<div class="space-y-2 text-sm"><label class="block">Start<input id="evStart" type="time" value="12:00" class="mt-1 w-full border rounded-lg px-2 py-1.5"></label><label class="block">End<input id="evEnd" type="time" value="15:00" class="mt-1 w-full border rounded-lg px-2 py-1.5"></label><label class="flex items-center gap-2 mt-1"><input id="evUseSolar" type="checkbox" checked><span>Solar-only (pause if cloudy)</span></label></div>`,confirmText:'Save'}); if(ok){const start=$('#evStart')?.value??'12:00',end=$('#evEnd')?.value??'15:00',solarOnly=$('#evUseSolar')?.checked??true; const list=store.get('ev_schedules',[]); list.push({id:Date.now(),start,end,solarOnly}); store.set('ev_schedules',list); renderEVSchedules(); toast('Schedule saved');} Modal.close(ok); }
 
-      if (action === 'schedule-ev' || action === 'new-ev-schedule') {
-        const ok = await Modal.open({
-          titleText: 'Schedule EV Charging',
-          html: `
-            <div class="space-y-2 text-sm">
-              <label class="block">Start
-                <input id="evStart" type="time" value="12:00" class="mt-1 w-full border rounded-lg px-2 py-1.5">
-              </label>
-              <label class="block">End
-                <input id="evEnd" type="time" value="15:00" class="mt-1 w-full border rounded-lg px-2 py-1.5">
-              </label>
-              <label class="flex items-center gap-2 mt-1">
-                <input id="evUseSolar" type="checkbox" checked>
-                <span>Solar-only (pause if cloudy)</span>
-              </label>
-            </div>`,
-          confirmText: 'Save'
-        });
-        if (ok) {
-          const start = $('#evStart')?.value ?? '12:00';
-          const end = $('#evEnd')?.value ?? '15:00';
-          const solarOnly = $('#evUseSolar')?.checked ?? true;
-          const list = store.get('ev_schedules', []);
-          list.push({ id: Date.now(), start, end, solarOnly });
-          store.set('ev_schedules', list);
-          renderEVSchedules();
-          toast('Schedule saved');
-        }
-        Modal.close(ok);
-      }
+      if(action==='start-charge'){ if(!store.get('toggle_ev_enable',false)){ toast('Enable charger first'); return; } $('#evStatus').textContent='Charging…'; toast('Charging started'); }
 
-      if (action === 'start-charge') {
-        const evEnabled = store.get('toggle_ev_enable', false);
-        if (!evEnabled) {
-          toast('Enable charger first'); return;
-        }
-        $('#evStatus').textContent = 'Charging…';
-        toast('Charging started');
-      }
+      if(action==='manage-scenes'){ await Modal.open({titleText:'Scenes',html:`<div class="space-y-2 text-sm"><p>• Eco Noon — prioritize PV, dim lights 20%, raise HVAC 1 °C</p><p>• Away — arm security, off lights, water heater eco</p><p>• Night — dim to 30%, pre-cool bedroom</p></div>`,confirmText:'Close',cancelText:' '}); Modal.close(true); }
 
-      if (action === 'manage-scenes') {
-        const ok = await Modal.open({
-          titleText: 'Scenes',
-          html: `
-            <div class="space-y-2 text-sm">
-              <p>• Eco Noon — prioritize PV, dim lights 20%, raise HVAC 1 °C</p>
-              <p>• Away — arm security, off lights, water heater eco</p>
-              <p>• Night — dim to 30%, pre-cool bedroom</p>
-            </div>`,
-          confirmText: 'Close', cancelText: ' '
-        });
-        Modal.close(ok);
-      }
+      if(action==='scene'){ toast(`Scene applied`); }
 
-      if (action === 'scene') {
-        const key = btn.getAttribute('data-scene');
-        toast(`Scene applied: ${key.replace('scene_','').replace('_',' ')}`);
-      }
+      if(action?.startsWith('open-')){ const ok=await Modal.open({titleText:'Device Controls',html:`<div class="space-y-2 text-sm"><label class="block">Setpoint<input type="number" value="24" class="mt-1 w-full border rounded-lg px-2 py-1.5"></label><label class="flex items-center gap-2"><input type="checkbox" checked> Adaptive</label></div>`,confirmText:'Save'}); Modal.close(ok); if(ok) toast('Device updated'); }
 
-      if (action?.startsWith('open-')) {
-        const deviceKey = action.replace('open-','');
-        const ok = await Modal.open({
-          titleText: 'Device Controls',
-          html: `
-            <div class="space-y-2 text-sm">
-              <label class="block">Setpoint
-                <input type="number" value="24" class="mt-1 w-full border rounded-lg px-2 py-1.5">
-              </label>
-              <label class="flex items-center gap-2"><input type="checkbox" checked> Adaptive</label>
-            </div>`,
-          confirmText: 'Save'
-        });
-        Modal.close(ok);
-        if (ok) toast('Device updated');
-      }
+      if(action==='view-consumption'){ await Modal.open({titleText:'Consumption Breakdown',html:`<img src="https://dummyimage.com/380x180/edf2f7/0f4c81.png&text=Detail+Breakdown" class="w-full rounded-lg" alt="">`,confirmText:'Close',cancelText:' '}); Modal.close(true); }
 
-      if (action === 'view-consumption') {
-        const ok = await Modal.open({
-          titleText: 'Consumption Breakdown',
-          html: `<img src="https://dummyimage.com/380x180/edf2f7/0f4c81.png&text=Detail+Breakdown" class="w-full rounded-lg" alt="">`,
-          confirmText: 'Close', cancelText: ' '
-        });
-        Modal.close(ok);
-      }
+      // Security (now under Smart Home)
+      if(action==='arm-away'){ store.set('security_armed',true); $('#secStatus').textContent='Armed (Away)'; toast('Security armed'); }
+      if(action==='disarm'){ store.set('security_armed',false); $('#secStatus').textContent='Disarmed'; toast('Security disarmed'); }
+      if(action==='open-camera'){ const name=btn.getAttribute('data-camera'); await Modal.open({titleText:`Live · ${name}`,html:`<div class="aspect-video bg-slate-200 rounded-lg flex items-center justify-center text-slate-500"><i class="fa-solid fa-video"></i></div>`,confirmText:'Close',cancelText:' '}); Modal.close(true); }
 
-      if (action === 'arm-away') {
-        store.set('security_armed', true);
-        $('#secStatus').textContent = 'Armed (Away)';
-        toast('Security armed');
-      }
-      if (action === 'disarm') {
-        store.set('security_armed', false);
-        $('#secStatus').textContent = 'Disarmed';
-        toast('Security disarmed');
-      }
-
-      if (action === 'open-camera') {
-        const name = btn.getAttribute('data-camera');
-        const ok = await Modal.open({
-          titleText: `Live · ${name}`,
-          html: `<div class="aspect-video bg-slate-200 rounded-lg flex items-center justify-center text-slate-500"><i class="fa-solid fa-video"></i></div>`,
-          confirmText: 'Close', cancelText: ' '
-        });
-        Modal.close(ok);
-      }
-
-      if (action === 'export-settings') {
-        const data = {
-          toggles: Object.keys(localStorage).filter(k=>k.startsWith('toggle_')).reduce((o,k)=> (o[k]=store.get(k), o), {}),
-          settings: Object.keys(localStorage).filter(k=>k.startsWith('setting_')).reduce((o,k)=> (o[k]=store.get(k), o), {}),
-          ev_schedules: store.get('ev_schedules', [])
-        };
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'solarmindx-config.json';
-        a.click();
-        URL.revokeObjectURL(a.href);
-        toast('Configuration exported');
-      }
+      if(action==='export-settings'){ const data={ toggles:Object.keys(localStorage).filter(k=>k.startsWith('toggle_')).reduce((o,k)=>(o[k]=store.get(k),o),{}), settings:Object.keys(localStorage).filter(k=>k.startsWith('setting_')).reduce((o,k)=>(o[k]=store.get(k),o),{}), ev_schedules:store.get('ev_schedules',[]) }; const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='solarmindx-config.json'; a.click(); URL.revokeObjectURL(a.href); toast('Configuration exported'); }
     });
 
     // Notifications
-    $('#btnNotifications').addEventListener('click', async () => {
-      const ok = await Modal.open({
-        titleText: 'Notifications',
-        html: `
-          <div class="space-y-2 text-sm">
-            <div class="p-2 bg-slate-50 rounded-lg">12:05 — High PV forecast today. Consider EV charging schedule.</div>
-            <div class="p-2 bg-slate-50 rounded-lg">09:10 — Security: Garage camera detected motion (cat).</div>
-          </div>`,
-        confirmText: 'Clear'
-      });
-      if (ok) { $('#notifDot').classList.add('hidden'); toast('Notifications cleared'); }
-      Modal.close(ok);
+    $('#btnNotifications').addEventListener('click', async ()=>{
+      const ok=await Modal.open({titleText:'Notifications',html:`<div class="space-y-2 text-sm"><div class="p-2 bg-slate-50 rounded-lg">12:05 — High PV forecast today. Consider EV charging schedule.</div><div class="p-2 bg-slate-50 rounded-lg">09:10 — Security: Garage camera detected motion (cat).</div></div>`,confirmText:'Clear'}); if(ok){ $('#notifDot').classList.add('hidden'); toast('Notifications cleared'); } Modal.close(ok);
     });
 
-    // EV schedules render
-    function renderEVSchedules() {
-      const wrap = $('#evSchedules');
-      const list = store.get('ev_schedules', []);
-      if (!wrap) return;
-      if (!list.length) { wrap.innerHTML = `<p class="text-slate-500">No schedules yet.</p>`; return; }
-      wrap.innerHTML = list.map(s => `
+    // EV schedules
+    function renderEVSchedules(){
+      const wrap=$('#evSchedules'); if(!wrap) return;
+      const list=store.get('ev_schedules',[]);
+      if(!list.length){ wrap.innerHTML=`<p class="text-slate-500">No schedules yet.</p>`; return; }
+      wrap.innerHTML=list.map(s=>`
         <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50">
-          <div>
-            <p class="font-medium">${s.start} → ${s.end}</p>
-            <p class="text-[11px] text-slate-500">${s.solarOnly?'Solar-only':'Grid allowed'}</p>
-          </div>
+          <div><p class="font-medium">${s.start} → ${s.end}</p><p class="text-[11px] text-slate-500">${s.solarOnly?'Solar-only':'Grid allowed'}</p></div>
           <button class="text-danger text-sm" data-id="${s.id}" data-action="del-ev-schedule">Delete</button>
-        </div>
-      `).join('');
-      // delete wiring
+        </div>`).join('');
       $$('#evSchedules [data-action="del-ev-schedule"]').forEach(b=>{
-        b.onclick = () => {
-          const id = Number(b.getAttribute('data-id'));
-          const rest = store.get('ev_schedules', []).filter(x => x.id !== id);
-          store.set('ev_schedules', rest);
-          renderEVSchedules();
-          toast('Deleted');
-        };
+        b.onclick=()=>{ const id=Number(b.getAttribute('data-id')); const rest=store.get('ev_schedules',[]).filter(x=>x.id!==id); store.set('ev_schedules',rest); renderEVSchedules(); toast('Deleted'); };
       });
     }
 
-    // Toggle EV charger enable
-    document.addEventListener('change', (e)=>{
-      const inp = e.target.closest('input[data-toggle="ev_enable"]');
-      if (!inp) return;
-      store.set('toggle_ev_enable', inp.checked);
-      styleToggle(inp);
-      $('#evStatus').textContent = inp.checked ? 'Ready' : 'Not charging';
-      toast(inp.checked ? 'Charger enabled' : 'Charger disabled');
+    // EV enable toggle listener
+    document.addEventListener('change',(e)=>{
+      const inp=e.target.closest('input[data-toggle="ev_enable"]'); if(!inp) return;
+      store.set('toggle_ev_enable',inp.checked); styleToggle(inp); $('#evStatus').textContent=inp.checked?'Ready':'Not charging'; toast(inp.checked?'Charger enabled':'Charger disabled');
     });
 
-    // ---------- Charts ----------
+    // Charts
     let flowChart, sourcesChart;
-    function renderEnergyCharts(range='week') {
-      const elFlow = $('#chartFlow'); const elSrc = $('#chartSources');
-      if (!elFlow || !elSrc) return;
-
-      if (!flowChart) flowChart = echarts.init(elFlow);
-      if (!sourcesChart) sourcesChart = echarts.init(elSrc);
-
-      const dataSets = {
-        day:  { x: ['6a','9a','12p','3p','6p','9p'], solar:[1.2,2.1,3.8,3.5,1.4,0.4], use:[0.9,1.3,2.0,2.4,1.8,1.1], grid:[0.2,0.1,0.0,0.0,0.6,0.7], batt:[0.3,0.2,0.0,0.1,0.2,0.3] },
-        week: { x: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], solar:[18.2,22.5,19.8,25.1,23.4,21.2,24.7], use:[12.5,14.2,13.1,15.8,14.5,16.7,15.3], grid:[3.2,2.1,2.8,1.5,2.3,4.2,3.1], batt:[2.5,3.8,2.2,4.1,3.5,2.1,3.8] },
-        month:{ x: Array.from({length:12},(_,i)=>`W${i+1}`), solar:[14,15,18,20,21,23,22,24,25,23,20,18], use:[11,12,12,13,14,15,16,16,17,16,15,14], grid:[2,2,3,2,2,3,4,3,3,3,2,2], batt:[1,2,2,2,3,3,2,3,3,2,2,2] }
-      }[range];
-
-      const common = {
-        tooltip:{ trigger:'axis' },
-        legend:{ data:['Solar','Consumption','Grid','Battery'], bottom: 0 },
-        grid:{ left:'6%', right:'6%', top:'6%', bottom:'18%' },
-        xAxis:{ type:'category', data:dataSets.x },
-        yAxis:{ type:'value', name:'kWh' }
-      };
-      flowChart.setOption({
-        ...common,
-        series:[
-          { name:'Solar', type:'line', smooth:true, data:dataSets.solar, lineStyle:{width:3, color:'#2ECC71'}, areaStyle:{color:'rgba(46,204,113,.18)'} },
-          { name:'Consumption', type:'line', smooth:true, data:dataSets.use, lineStyle:{width:3, color:'#0F4C81'}, areaStyle:{color:'rgba(15,76,129,.15)'} },
-          { name:'Grid', type:'line', smooth:true, data:dataSets.grid, lineStyle:{width:2, type:'dashed', color:'#4A90E2'} },
-          { name:'Battery', type:'line', smooth:true, data:dataSets.batt, lineStyle:{width:2, type:'dashed', color:'#9B59B6'} }
-        ]
-      });
-
-      sourcesChart.setOption({
-        tooltip:{ trigger:'item' },
-        series:[{
-          type:'pie', name:'Sources', radius:['60%','80%'],
-          label:{ show:false }, labelLine:{ show:false },
-          data:[
-            { value:65, name:'Solar', itemStyle:{ color:'#2ECC71' } },
-            { value:25, name:'Grid', itemStyle:{ color:'#0F4C81' } },
-            { value:10, name:'Battery', itemStyle:{ color:'#F39C12' } },
-          ]
-        }]
-      });
-      new ResizeObserver(()=> { flowChart.resize(); sourcesChart.resize(); }).observe(document.body);
-
-      // Range buttons
-      $$('#/energy [data-range], [data-page="#/energy"] [data-range]').forEach(b=>{
-        b.addEventListener('click', ()=>{
-          $$('#[data-page="#/energy"] [data-range]', document).forEach(bb=>bb.classList.remove('bg-primary','text-white'));
-          b.classList.add('bg-primary','text-white');
-          renderEnergyCharts(b.getAttribute('data-range'));
-        }, { once:true });
+    function renderEnergyCharts(range='week'){
+      const elFlow=$('#chartFlow'), elSrc=$('#chartSources'); if(!elFlow||!elSrc) return;
+      if(!flowChart) flowChart=echarts.init(elFlow); if(!sourcesChart) sourcesChart=echarts.init(elSrc);
+      const ds={ day:{x:['6a','9a','12p','3p','6p','9p'], solar:[1.2,2.1,3.8,3.5,1.4,0.4], use:[0.9,1.3,2.0,2.4,1.8,1.1], grid:[0.2,0.1,0.0,0.0,0.6,0.7], batt:[0.3,0.2,0.0,0.1,0.2,0.3]},
+                 week:{x:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], solar:[18.2,22.5,19.8,25.1,23.4,21.2,24.7], use:[12.5,14.2,13.1,15.8,14.5,16.7,15.3], grid:[3.2,2.1,2.8,1.5,2.3,4.2,3.1], batt:[2.5,3.8,2.2,4.1,3.5,2.1,3.8]},
+                 month:{x:Array.from({length:12},(_,i)=>`W${i+1}`), solar:[14,15,18,20,21,23,22,24,25,23,20,18], use:[11,12,12,13,14,15,16,16,17,16,15,14], grid:[2,2,3,2,2,3,4,3,3,3,2,2], batt:[1,2,2,2,3,3,2,3,3,2,2,2]} }[range];
+      const common={tooltip:{trigger:'axis'},legend:{data:['Solar','Consumption','Grid','Battery'],bottom:0},grid:{left:'6%',right:'6%',top:'6%',bottom:'18%'},xAxis:{type:'category',data:ds.x},yAxis:{type:'value',name:'kWh'}};
+      flowChart.setOption({...common,series:[
+        {name:'Solar',type:'line',smooth:true,data:ds.solar,lineStyle:{width:3,color:'#2ECC71'},areaStyle:{color:'rgba(46,204,113,.18)'}},
+        {name:'Consumption',type:'line',smooth:true,data:ds.use,lineStyle:{width:3,color:'#0F4C81'},areaStyle:{color:'rgba(15,76,129,.15)'}},
+        {name:'Grid',type:'line',smooth:true,data:ds.grid,lineStyle:{width:2,type:'dashed',color:'#4A90E2'}},
+        {name:'Battery',type:'line',smooth:true,data:ds.batt,lineStyle:{width:2,type:'dashed',color:'#9B59B6'}}
+      ]});
+      sourcesChart.setOption({tooltip:{trigger:'item'},series:[{type:'pie',name:'Sources',radius:['60%','80%'],label:{show:false},labelLine:{show:false},data:[{value:65,name:'Solar',itemStyle:{color:'#2ECC71'}},{value:25,name:'Grid',itemStyle:{color:'#0F4C81'}},{value:10,name:'Battery',itemStyle:{color:'#F39C12'}}]}]});
+      new ResizeObserver(()=>{flowChart.resize(); sourcesChart.resize();}).observe(document.body);
+      // range buttons
+      $$('[data-page="#/energy"] [data-range"]').forEach(b=>{
+        b.onclick=()=>{ $$('[data-page="#/energy"] [data-range"]').forEach(x=>x.classList.remove('bg-primary','text-white')); b.classList.add('bg-primary','text-white'); renderEnergyCharts(b.getAttribute('data-range')); };
       });
     }
 
-    // ---------- Init ----------
-    function init() {
-      // restore toggles visuals
-      wireToggles();
-      // render EV schedules
-      renderEVSchedules();
-      // initial route
-      setActiveRoute(location.hash || '#/dashboard');
-      // brand link to concept: unified control across energy/home/EV/security for cost + carbon savings (SolarMind X)
-      // (already reflected via recommendations & automations; settings include TOU tariffs and PV-aware shifts)
+    function wireSecurityStatus(){ // keeps status text accurate after reload
+      const el = $('#secStatus'); if(el) el.textContent = store.get('security_armed',false) ? 'Armed (Away)' : 'Disarmed';
     }
+
+    function renderEVSchedules(){ const wrap=$('#evSchedules'); if(!wrap) return; const list=store.get('ev_schedules',[]);
+      if(!list.length){ wrap.innerHTML=`<p class="text-slate-500">No schedules yet.</p>`; return; }
+      wrap.innerHTML=list.map(s=>`
+        <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50">
+          <div><p class="font-medium">${s.start} → ${s.end}</p><p class="text-[11px] text-slate-500">${s.solarOnly?'Solar-only':'Grid allowed'}</p></div>
+          <button class="text-danger text-sm" data-id="${s.id}" data-action="del-ev-schedule">Delete</button>
+        </div>`).join('');
+      $$('#evSchedules [data-action="del-ev-schedule"]').forEach(b=>{
+        b.onclick=()=>{ const id=Number(b.getAttribute('data-id')); const rest=store.get('ev_schedules',[]).filter(x=>x.id!==id); store.set('ev_schedules',rest); renderEVSchedules(); toast('Deleted'); };
+      });
+    }
+
+    document.addEventListener('change',(e)=>{
+      const inp=e.target.closest('input[data-toggle="ev_enable"]'); if(!inp) return;
+      store.set('toggle_ev_enable',inp.checked); styleToggle(inp); $('#evStatus').textContent=inp.checked?'Ready':'Not charging'; toast(inp.checked?'Charger enabled':'Charger disabled');
+    });
+
+    function wireToggles(){ $$('input[data-toggle],input[data-setting]').forEach(styleToggle); }
+
+    function init(){ wireToggles(); wireSecurityStatus(); renderEVSchedules(); setActiveRoute(location.hash||'#/dashboard'); }
     window.addEventListener('load', init);
   </script>
 </body>
