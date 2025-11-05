@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en" class="h-full">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>SolarMind X — Smart Energy Ecosystem</title>
 
+  <!-- Tailwind + Icons + ECharts -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
   <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
 
   <script>
@@ -18,19 +19,19 @@
             secondary: '#4A90E2',
             accent: '#2ECC71',
             warning: '#F39C12',
-            danger: '#E74C3C',
-            light: '#F7FAFC',
-            ink: '#1A202C',
+            danger:  '#E74C3C',
+            light:   '#F7FAFC',
+            ink:     '#1A202C',
             'primary-50': '#EBF2FA'
           },
           fontFamily: { inter: ['Inter','ui-sans-serif','system-ui','Segoe UI','Helvetica','Arial','sans-serif'] },
-          boxShadow: { smx:'0 8px 30px rgba(15,76,129,.12)' }
+          boxShadow:  { smx:'0 8px 30px rgba(15,76,129,.12)' }
         }
       }
     }
   </script>
   <style>
-    .safe-top { padding-top: calc(env(safe-area-inset-top, 0px) + 12px); }
+    .safe-top    { padding-top:    calc(env(safe-area-inset-top,    0px) + 12px); }
     .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); }
     .no-scrollbar::-webkit-scrollbar { width:0; height:0; }
   </style>
@@ -42,47 +43,47 @@
     <header class="safe-top px-4 pb-3 bg-gradient-to-r from-primary to-secondary text-white">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="https://dummyimage.com/64x64/0F4C81/ffffff.png&text=SX" alt="SolarMind X"
-               class="w-9 h-9 rounded-xl ring-2 ring-white/30 object-cover"/>
+          <!-- Inline SVG placeholder logo (replace with your png if you like) -->
+          <svg viewBox="0 0 64 64" class="w-9 h-9 rounded-xl ring-2 ring-white/30 bg-white/10 p-1">
+            <path d="M6 30 30 10l4 3 24 17v18a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V30z" fill="#bfe9ff"/>
+            <path d="M12 34h14v14H12z" fill="#fff"/>
+            <path d="M36 24h16v8H36z" fill="#2ECC71"/>
+            <path d="M28 40h8l-4 8h8" fill="none" stroke="#F7B500" stroke-width="3" stroke-linecap="round"/>
+          </svg>
           <div>
             <h1 class="text-lg font-semibold leading-tight">SolarMind X</h1>
             <p class="text-white/80 text-xs -mt-0.5">Smart Energy Ecosystem</p>
           </div>
         </div>
-        <button id="btnNotifications" class="relative p-2 rounded-full bg-white/10 hover:bg-white/20 transition">
-          <i class="fa-solid fa-bell text-base"></i>
-          <span id="notifDot" class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-accent rounded-full"></span>
-        </button>
+        <div class="flex items-center gap-2">
+          <button id="btnAI" class="p-2 rounded-full bg-white/10 hover:bg-white/20" title="AI Advisor">
+            <i class="fa-solid fa-robot text-base"></i>
+          </button>
+          <button id="btnNotifications" class="relative p-2 rounded-full bg-white/10 hover:bg-white/20" title="Notifications">
+            <i class="fa-solid fa-bell text-base"></i>
+            <span id="notifDot" class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-accent rounded-full"></span>
+          </button>
+        </div>
       </div>
     </header>
 
     <!-- Content -->
     <main id="pageContainer" class="flex-1 overflow-y-auto no-scrollbar bg-slate-50">
-      <section data-page="#/dashboard" class="page p-4 space-y-4"></section>
-      <section data-page="#/energy" class="page hidden p-4 space-y-4"></section>
-      <section data-page="#/smart-home" class="page hidden p-4 space-y-4"></section>
-      <section data-page="#/ev" class="page hidden p-4 space-y-4"></section>
-      <section data-page="#/settings" class="page hidden p-4 space-y-4"></section>
+      <section data-page="#/dashboard"   class="page p-4 space-y-4"></section>
+      <section data-page="#/energy"      class="page hidden p-4 space-y-4"></section>
+      <section data-page="#/smart-home"  class="page hidden p-4 space-y-6"></section>
+      <section data-page="#/ev"          class="page hidden p-4 space-y-4"></section>
+      <section data-page="#/settings"    class="page hidden p-4 space-y-4"></section>
     </main>
 
-    <!-- Bottom tab bar -->
+    <!-- Bottom tab bar (single source of truth) -->
     <footer class="safe-bottom border-t bg-white">
       <div class="grid grid-cols-5 text-[11px] text-slate-500">
-        <button data-route="#/dashboard" class="nav-btn py-2.5 flex flex-col items-center gap-1 text-primary">
-          <i class="fa-solid fa-gauge-high text-lg"></i><span>Dashboard</span>
-        </button>
-        <button data-route="#/energy" class="nav-btn py-2.5 flex flex-col items-center gap-1">
-          <i class="fa-solid fa-bolt text-lg"></i><span>Energy</span>
-        </button>
-        <button data-route="#/smart-home" class="nav-btn py-2.5 flex flex-col items-center gap-1">
-          <i class="fa-solid fa-house-signal text-lg"></i><span>Smart Home</span>
-        </button>
-        <button data-route="#/ev" class="nav-btn py-2.5 flex flex-col items-center gap-1">
-          <i class="fa-solid fa-charging-station text-lg"></i><span>EV</span>
-        </button>
-        <button data-route="#/settings" class="nav-btn py-2.5 flex flex-col items-center gap-1">
-          <i class="fa-solid fa-gear text-lg"></i><span>Settings</span>
-        </button>
+        <button data-route="#/dashboard"  class="nav-btn py-2.5 flex flex-col items-center gap-1 text-primary"><i class="fa-solid fa-gauge-high text-lg"></i><span>Dashboard</span></button>
+        <button data-route="#/energy"     class="nav-btn py-2.5 flex flex-col items-center gap-1"><i class="fa-solid fa-bolt text-lg"></i><span>Energy</span></button>
+        <button data-route="#/smart-home" class="nav-btn py-2.5 flex flex-col items-center gap-1"><i class="fa-solid fa-house-signal text-lg"></i><span>Smart Home</span></button>
+        <button data-route="#/ev"         class="nav-btn py-2.5 flex flex-col items-center gap-1"><i class="fa-solid fa-charging-station text-lg"></i><span>EV</span></button>
+        <button data-route="#/settings"   class="nav-btn py-2.5 flex flex-col items-center gap-1"><i class="fa-solid fa-gear text-lg"></i><span>Settings</span></button>
       </div>
     </footer>
 
@@ -94,38 +95,63 @@
     </div>
 
     <!-- Modal -->
-    <div id="modal" class="fixed inset-0 bg-black/40 hidden items-end md:items-center justify-center z-50">
-      <div class="w-full max-w-[430px] bg-white rounded-t-2xl md:rounded-2xl overflow-hidden">
+    <div id="modal" class="fixed inset-0 bg-black/40 hidden flex items-center justify-center z-50">
+      <div class="w-full max-w-[430px] bg-white rounded-2xl overflow-hidden">
         <div class="p-4 border-b flex items-center justify-between">
           <h3 id="modalTitle" class="font-semibold">Title</h3>
           <button id="modalClose" class="p-2 rounded-lg hover:bg-slate-100"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="modalBody" class="p-4 space-y-3 text-sm"></div>
         <div class="p-3 border-t flex justify-end gap-2">
-          <button id="modalCancel" class="px-3 py-2 rounded-lg border border-slate-300 hover:bg-slate-50">Cancel</button>
+          <button id="modalCancel"  class="px-3 py-2 rounded-lg border border-slate-300 hover:bg-slate-50">Cancel</button>
           <button id="modalConfirm" class="px-3 py-2 rounded-lg bg-primary text-white hover:bg-primary/90">Confirm</button>
         </div>
       </div>
     </div>
+
+    <!-- AI Advisor Panel -->
+    <div id="aiPanel" class="fixed inset-x-0 bottom-0 z-40 hidden">
+      <div class="mx-auto max-w-[430px] bg-white rounded-t-2xl shadow-xl border border-slate-200">
+        <div class="px-4 py-3 border-b flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-robot text-primary"></i>
+            <h3 class="font-semibold">AI Advisor</h3>
+          </div>
+          <button id="aiClose" class="p-2 rounded-lg hover:bg-slate-100"><i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+        <div id="aiChat" class="px-4 py-3 h-72 overflow-y-auto no-scrollbar space-y-3 text-sm">
+          <div class="flex items-start gap-2">
+            <div class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center"><i class="fa-solid fa-robot text-xs"></i></div>
+            <div class="bg-slate-100 rounded-xl px-3 py-2">Hi! I can help optimize energy, schedule EV charging, and watch for security events. Ask me anything.</div>
+          </div>
+        </div>
+        <div class="p-3 border-t flex gap-2">
+          <input id="aiInput" class="flex-1 px-3 py-2 rounded-lg border" placeholder="Ask: schedule EV, cut bills, security…">
+          <button id="aiSend" class="px-3 py-2 rounded-lg bg-primary text-white"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- App Script -->
   <script>
-    // Helpers
-    const $ = (s, r=document)=>r.querySelector(s);
+    /* ---------- helpers ---------- */
+    const $  = (s, r=document)=>r.querySelector(s);
     const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
-    const store = { get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}, set(k,v){localStorage.setItem(k,JSON.stringify(v))} };
-    function toast(m='Done'){ const t=$('#toast'); $('#toastMsg').textContent=m; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),1600); }
+    const store={ get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}, set(k,v){localStorage.setItem(k,JSON.stringify(v))} };
+    const toast=(m='Done')=>{ const t=$('#toast'); $('#toastMsg').textContent=m; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),1600); };
 
-    // Modal
-    const Modal=(()=>{const root=$('#modal'),title=$('#modalTitle'),body=$('#modalBody'),cX=$('#modalClose'),cA=$('#modalCancel'),cC=$('#modalConfirm');let R=null;
-      function open({titleText='Confirm',html='',confirmText='Confirm',cancelText='Cancel'}){title.textContent=titleText; body.innerHTML=html; cC.textContent=confirmText; cA.textContent=cancelText; root.classList.remove('hidden'); return new Promise(r=>R=r);}
-      function close(res=null){root.classList.add('hidden'); if(R) R(res); R=null;}
-      cX.onclick=()=>close(false); cA.onclick=()=>close(false); cC.onclick=()=>close(true); root.addEventListener('click',e=>{if(e.target===root) close(false);});
+    /* ---------- modal ---------- */
+    const Modal=(()=>{const root=$('#modal'),title=$('#modalTitle'),body=$('#modalBody'),x=$('#modalClose'),c1=$('#modalCancel'),c2=$('#modalConfirm');let RESOLVE=null;
+      function open({titleText='Confirm',html='',confirmText='Confirm',cancelText='Cancel'}){title.textContent=titleText; body.innerHTML=html; c2.textContent=confirmText; c1.textContent=cancelText; root.classList.remove('hidden'); return new Promise(r=>RESOLVE=r);}
+      function close(res=null){root.classList.add('hidden'); if(RESOLVE) RESOLVE(res); RESOLVE=null;}
+      x.onclick=()=>close(false); c1.onclick=()=>close(false); c2.onclick=()=>close(true);
+      root.addEventListener('click',e=>{ if(e.target===root) close(false); });
       return {open,close};
     })();
 
-    // Router
+    /* ---------- router ---------- */
     const pages=$$('.page'); const navBtns=$$('.nav-btn');
     function setActiveRoute(hash){ if(!hash||hash==='#'||hash==='#/') hash='#/dashboard';
       pages.forEach(p=>p.classList.toggle('hidden',p.getAttribute('data-page')!==hash));
@@ -135,23 +161,26 @@
     window.addEventListener('hashchange',()=>setActiveRoute(location.hash));
     navBtns.forEach(b=>b.addEventListener('click',()=>setActiveRoute(b.getAttribute('data-route'))));
 
-    // UI builders
-    function kpiCard({ title, value, icon, delta, deltaVariant='up', color='primary' }) {
+    /* ---------- small UI builders ---------- */
+    const kpiCard=({title,value,icon,delta,deltaVariant='up',color='primary'})=>{
       const arrow = deltaVariant==='up'?'fa-arrow-up':'fa-arrow-down';
-      const deltaColor = deltaVariant==='up'?'text-accent':'text-danger';
+      const dcol  = deltaVariant==='up'?'text-accent':'text-danger';
       return `
       <div class="bg-white rounded-xl p-4 shadow-sm">
         <div class="flex items-start justify-between">
           <div><p class="text-slate-500 text-xs">${title}</p><h3 class="text-2xl font-semibold mt-1">${value}</h3></div>
           <div class="w-10 h-10 rounded-xl bg-${color}-50 text-${color} flex items-center justify-center"><i class="fa-solid ${icon}"></i></div>
         </div>
-        ${delta!==undefined?`<div class="mt-3 text-xs flex items-center ${deltaColor}">
+        ${delta!==undefined?`<div class="mt-3 text-xs flex items-center ${dcol}">
           <i class="fa-solid ${arrow} mr-1"></i>${delta}<span class="text-slate-500 ml-2">vs yesterday</span></div>`:''}
-      </div>`; }
+      </div>`;
+    };
 
-    function progress(n,p,c){return`<div><div class="flex justify-between"><span>${n}</span><span>${p}%</span></div><div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-2 ${c}" style="width:${p}%"></div></div></div>`;}
+    const progress=(n,p,c)=>`<div><div class="flex justify-between"><span>${n}</span><span>${p}%</span></div><div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-2 ${c}" style="width:${p}%"></div></div></div>`;
 
-    function deviceCard(k,n,p,sub,on=false,icon='fa-sliders'){const chk=store.get(`toggle_${k}`,on);return`
+    const deviceCard=(k,n,p,sub,on=false,icon='fa-sliders')=>{
+      const chk=store.get(`toggle_${k}`,on);
+      return `
       <div class="bg-white rounded-xl p-3 shadow-sm">
         <div class="flex items-start justify-between">
           <div><p class="font-medium text-sm">${n}</p><p class="text-[11px] text-slate-500">${p}</p></div>
@@ -165,19 +194,19 @@
           <div class="flex items-center gap-2 text-sm"><i class="fa-solid ${icon} text-slate-500"></i><span>${sub}</span></div>
           <button class="text-primary text-sm" data-action="open-${k}"><i class="fa-solid fa-sliders"></i></button>
         </div>
-      </div>`;}
+      </div>`;
+    };
 
-    function sceneBtn(l,i,k){return`<button class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200" data-action="scene" data-scene="${k}"><i class="fa-solid ${i}"></i> ${l}</button>`;}
-
-    function cameraCard(n){return`
+    const sceneBtn=(l,i,k)=>`<button class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200" data-action="scene" data-scene="${k}"><i class="fa-solid ${i}"></i> ${l}</button>`;
+    const cameraCard=(n)=>`
       <div class="bg-white rounded-xl p-3 shadow-sm">
         <div class="aspect-video bg-slate-200 rounded-lg flex items-center justify-center text-slate-500"><i class="fa-solid fa-video"></i></div>
         <div class="mt-2 flex items-center justify-between text-sm"><span class="font-medium">${n}</span><button class="text-primary" data-action="open-camera" data-camera="${n}">Live</button></div>
-      </div>`;}
+      </div>`;
 
-    // Pages
+    /* ---------- pages content ---------- */
     // Dashboard
-    $('[data-page="#/dashboard"]').innerHTML=`
+    $('[data-page="#/dashboard"]').innerHTML = `
       <section class="space-y-4">
         <div class="bg-gradient-to-br from-primary to-secondary rounded-2xl p-4 text-white shadow-sm">
           <div class="flex items-center justify-between">
@@ -199,38 +228,21 @@
           ${kpiCard({ title:'Grid Import', value:'2.1 kWh', icon:'fa-plug-circle-bolt', delta:'-9%', deltaVariant:'down', color:'secondary' })}
         </div>
 
+        <!-- AI Smart Suggestions -->
         <div class="bg-white p-4 rounded-xl shadow-sm">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="font-semibold">Smart Recommendations</h3>
-            <button class="text-primary text-sm" data-action="open-recs">View All</button>
-          </div>
-          <div class="space-y-3">
-            <div class="p-3 rounded-lg border-l-4 border-accent bg-accent/5">
-              <div class="flex items-start justify-between">
-                <div>
-                  <p class="font-medium">Shift EV charging</p>
-                  <p class="text-slate-600 text-xs">Charge during 12–3 PM to maximize solar; est. save RM4.50/day.</p>
-                  <button class="mt-2 px-3 py-1.5 rounded-lg bg-accent text-white text-xs" data-action="schedule-ev">Schedule Now</button>
-                </div>
-                <i class="fa-solid fa-car-side text-accent text-lg"></i>
-              </div>
-            </div>
-            <div class="p-3 rounded-lg border-l-4 border-primary bg-primary-50">
-              <div class="flex items-start justify-between">
-                <div>
-                  <p class="font-medium">Optimize HVAC</p>
-                  <p class="text-slate-600 text-xs">Increase setpoint by 1 °C → ~12–15% reduction.</p>
-                  <button class="mt-2 px-3 py-1.5 rounded-lg bg-primary text-white text-xs" data-action="apply-hvac">Apply Settings</button>
-                </div>
-                <i class="fa-solid fa-wind text-primary text-lg"></i>
-              </div>
+            <h3 class="font-semibold">AI Smart Suggestions</h3>
+            <div class="flex items-center gap-2">
+              <button class="text-primary text-sm" data-action="regen-suggestions"><i class="fa-solid fa-rotate"></i> Regenerate</button>
+              <button class="text-primary text-sm" data-action="open-recs">View All</button>
             </div>
           </div>
+          <div id="aiSuggestWrap" class="space-y-3"></div>
         </div>
       </section>`;
 
     // Energy
-    $('[data-page="#/energy"]').innerHTML=`
+    $('[data-page="#/energy"]').innerHTML = `
       <section class="space-y-4">
         <h2 class="text-lg font-semibold">Energy Management</h2>
         <div class="grid grid-cols-2 gap-3">
@@ -274,8 +286,8 @@
         </div>
       </section>`;
 
-    // Smart Home  (Security merged here)
-    $('[data-page="#/smart-home"]').innerHTML=`
+    // Smart Home + Security
+    $('[data-page="#/smart-home"]').innerHTML = `
       <section class="space-y-6">
         <div>
           <h2 class="text-lg font-semibold">Smart Home</h2>
@@ -299,7 +311,6 @@
           </div>
         </div>
 
-        <!-- SECURITY SECTION (moved under Smart Home) -->
         <div class="space-y-3">
           <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold">Security</h3>
@@ -327,7 +338,7 @@
       </section>`;
 
     // EV
-    $('[data-page="#/ev"]').innerHTML=`
+    $('[data-page="#/ev"]').innerHTML = `
       <section class="space-y-4">
         <h2 class="text-lg font-semibold">EV Charging</h2>
         <div class="bg-white rounded-xl p-4 shadow-sm space-y-3">
@@ -356,7 +367,15 @@
       </section>`;
 
     // Settings
-    $('[data-page="#/settings"]').innerHTML=`
+    const settingToggle=(k,l,d=false)=>{const on=store.get(`setting_${k}`,d);return`
+      <label class="flex items-center justify-between py-3"><span class="text-sm">${l}</span>
+        <span class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only" data-setting="${k}" ${on?'checked':''}>
+          <span class="w-10 h-5 bg-slate-300 rounded-full transition-colors"></span>
+          <span class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow transition-transform"></span>
+        </span>
+      </label>`;}
+    $('[data-page="#/settings"]').innerHTML = `
       <section class="space-y-4">
         <h2 class="text-lg font-semibold">Settings</h2>
         <div class="bg-white rounded-xl p-3 shadow-sm divide-y">
@@ -367,63 +386,190 @@
         </div>
         <button class="px-3 py-2 rounded-lg bg-secondary text-white" data-action="export-settings">Export Configuration</button>
       </section>`;
-    function settingToggle(k,l,d=false){const on=store.get(`setting_${k}`,d);return`
-      <label class="flex items-center justify-between py-3"><span class="text-sm">${l}</span>
-        <span class="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" class="sr-only" data-setting="${k}" ${on?'checked':''}>
-          <span class="w-10 h-5 bg-slate-300 rounded-full transition-colors"></span>
-          <span class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow transition-transform"></span>
-        </span>
-      </label>`;}
 
-    // Toggles
+    /* ---------- AI Smart Suggestions generator ---------- */
+    function renderAISuggestions(){
+      const wrap = $('#aiSuggestWrap');
+      const gridPrice = store.get('setting_opt_grid_price',true);
+      const hvacEco   = store.get('setting_opt_hvac_opt',true);
+      const evEnable  = store.get('toggle_ev_enable',false);
+      const armed     = store.get('security_armed',false);
+
+      const cards = [];
+
+      // Example rule: solar surplus -> shift EV
+      cards.push(`
+        <div class="p-3 rounded-lg border-l-4 border-accent bg-accent/5">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="font-medium">Shift EV charging</p>
+              <p class="text-slate-600 text-xs">High PV expected 12–3 PM. Schedule charging to use solar and avoid grid.</p>
+              <button class="mt-2 px-3 py-1.5 rounded-lg bg-accent text-white text-xs" data-action="schedule-ev">Schedule Now</button>
+            </div>
+            <i class="fa-solid fa-car-side text-accent text-lg"></i>
+          </div>
+        </div>`);
+
+      // Example rule: TOU tariff
+      if(gridPrice){
+        cards.push(`
+        <div class="p-3 rounded-lg border-l-4 border-primary bg-primary-50">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="font-medium">Avoid peak tariff 6–10 PM</p>
+              <p class="text-slate-600 text-xs">Delay dishwasher & water heater to off-peak (after 10 PM).</p>
+              <button class="mt-2 px-3 py-1.5 rounded-lg bg-primary text-white text-xs" data-action="apply-schedule-offpeak">Apply</button>
+            </div>
+            <i class="fa-solid fa-clock text-primary text-lg"></i>
+          </div>
+        </div>`);
+      }
+
+      // Example rule: HVAC eco
+      if(hvacEco){
+        cards.push(`
+        <div class="p-3 rounded-lg border-l-4 border-secondary bg-blue-50">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="font-medium">Optimize HVAC</p>
+              <p class="text-slate-600 text-xs">Raise setpoint by 1 °C (~12–15% saving). Auto-revert at 9 PM.</p>
+              <button class="mt-2 px-3 py-1.5 rounded-lg bg-secondary text-white text-xs" data-action="apply-hvac">Apply</button>
+            </div>
+            <i class="fa-solid fa-wind text-secondary text-lg"></i>
+          </div>
+        </div>`);
+      }
+
+      // Example rule: security armed + motion anomaly demo
+      if(armed){
+        cards.push(`
+        <div class="p-3 rounded-lg border-l-4 border-danger/80 bg-rose-50">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="font-medium">Security check</p>
+              <p class="text-slate-600 text-xs">AI noticed unusual motion near the Garage at 02:10. Review clip?</p>
+              <button class="mt-2 px-3 py-1.5 rounded-lg bg-danger text-white text-xs" data-action="open-camera" data-camera="Garage">Open Camera</button>
+            </div>
+            <i class="fa-solid fa-shield text-danger text-lg"></i>
+          </div>
+        </div>`);
+      }
+
+      // EV enabled nudge
+      if(!evEnable){
+        cards.push(`
+        <div class="p-3 rounded-lg border-l-4 border-slate-400 bg-slate-50">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="font-medium">Enable EV charger</p>
+              <p class="text-slate-600 text-xs">Turn on the charger to allow AI-scheduling during solar peak.</p>
+              <button class="mt-2 px-3 py-1.5 rounded-lg border text-xs" data-action="goto-ev">Go to EV</button>
+            </div>
+            <i class="fa-solid fa-plug text-slate-500 text-lg"></i>
+          </div>
+        </div>`);
+      }
+
+      wrap.innerHTML = cards.join('');
+    }
+
+    /* ---------- toggles & styling ---------- */
+    function styleToggle(inp){
+      const track=inp.nextElementSibling, knob=track.nextElementSibling;
+      if(inp.checked){ track.classList.replace('bg-slate-300','bg-primary'); knob.style.transform='translateX(20px)'; }
+      else { track.classList.add('bg-slate-300'); track.classList.remove('bg-primary'); knob.style.transform='translateX(0px)'; }
+    }
     function wireToggles(){
       $$('input[data-toggle]').forEach(inp=>{
         styleToggle(inp);
-        inp.addEventListener('change',()=>{store.set(`toggle_${inp.getAttribute('data-toggle')}`,inp.checked); styleToggle(inp); toast(inp.checked?'Turned on':'Turned off');});
+        inp.addEventListener('change',()=>{
+          store.set(`toggle_${inp.getAttribute('data-toggle')}`,inp.checked);
+          styleToggle(inp); toast(inp.checked?'Turned on':'Turned off');
+          renderAISuggestions(); // reflect on dashboard
+        });
       });
       $$('input[data-setting]').forEach(inp=>{
         styleToggle(inp);
-        inp.addEventListener('change',()=>{store.set(`setting_${inp.getAttribute('data-setting')}`,inp.checked); styleToggle(inp); toast('Setting saved');});
+        inp.addEventListener('change',()=>{
+          store.set(`setting_${inp.getAttribute('data-setting')}`,inp.checked);
+          styleToggle(inp); toast('Setting saved');
+          renderAISuggestions();
+        });
       });
     }
-    function styleToggle(inp){const track=inp.nextElementSibling, knob=track.nextElementSibling; if(inp.checked){track.classList.replace('bg-slate-300','bg-primary'); knob.style.transform='translateX(20px)';} else {track.classList.add('bg-slate-300'); track.classList.remove('bg-primary'); knob.style.transform='translateX(0px)';}}
 
-    // Actions
+    /* ---------- actions ---------- */
     document.addEventListener('click', async (e)=>{
       const btn=e.target.closest('[data-action]'); if(!btn) return;
       const action=btn.getAttribute('data-action');
 
-      if(action==='open-recs'){ await Modal.open({titleText:'Recommendations',html:`<div class="space-y-2"><div class="p-2 rounded-lg bg-accent/5 border-l-4 border-accent"><p class="text-sm font-medium">Shift EV charging to 12–3 PM</p><p class="text-xs text-slate-600">Use rooftop PV surplus to avoid grid import.</p></div><div class="p-2 rounded-lg bg-primary-50 border-l-4 border-primary"><p class="text-sm font-medium">Raise HVAC setpoint 1 °C</p><p class="text-xs text-slate-600">Cuts compressor runtime while staying comfy.</p></div></div>`,confirmText:'Okay'}); Modal.close(true); }
+      if(action==='open-recs'){
+        await Modal.open({titleText:'All suggestions',html:`<div class="space-y-2 text-sm">
+          <p>• Shift EV charging to 12–3 PM to use PV surplus.</p>
+          <p>• Avoid 6–10 PM peak tariffs; run appliances off-peak.</p>
+          <p>• Raise HVAC setpoint 1 °C during day, auto-revert at 9 PM.</p>
+          <p>• Arm security when everyone leaves; enable pet-filter after 10 PM.</p>
+        </div>`,confirmText:'Close',cancelText:' '}); Modal.close(true);
+      }
 
-      if(action==='apply-hvac'){ const ok=await Modal.open({titleText:'Apply HVAC Eco',html:`<p class="text-sm">Set living room thermostat to 24 °C and enable adaptive fan?</p>`,confirmText:'Apply'}); Modal.close(ok); if(ok) toast('HVAC optimized'); }
+      if(action==='regen-suggestions'){ renderAISuggestions(); toast('Suggestions updated'); }
 
-      if(action==='schedule-ev'||action==='new-ev-schedule'){ const ok=await Modal.open({titleText:'Schedule EV Charging',html:`<div class="space-y-2 text-sm"><label class="block">Start<input id="evStart" type="time" value="12:00" class="mt-1 w-full border rounded-lg px-2 py-1.5"></label><label class="block">End<input id="evEnd" type="time" value="15:00" class="mt-1 w-full border rounded-lg px-2 py-1.5"></label><label class="flex items-center gap-2 mt-1"><input id="evUseSolar" type="checkbox" checked><span>Solar-only (pause if cloudy)</span></label></div>`,confirmText:'Save'}); if(ok){const start=$('#evStart')?.value??'12:00',end=$('#evEnd')?.value??'15:00',solarOnly=$('#evUseSolar')?.checked??true; const list=store.get('ev_schedules',[]); list.push({id:Date.now(),start,end,solarOnly}); store.set('ev_schedules',list); renderEVSchedules(); toast('Schedule saved');} Modal.close(ok); }
+      if(action==='apply-hvac'){
+        const ok=await Modal.open({titleText:'Apply HVAC Eco',html:`<p class="text-sm">Set living room thermostat to 24 °C and enable adaptive fan?</p>`,confirmText:'Apply'});
+        Modal.close(ok); if(ok) toast('HVAC optimized');
+      }
+
+      if(action==='apply-schedule-offpeak'){
+        const ok=await Modal.open({titleText:'Shift Appliances',html:`<p class="text-sm">Move dishwasher & water heater to after 10 PM?</p>`,confirmText:'Apply'});
+        Modal.close(ok); if(ok) toast('Schedules updated');
+      }
+
+      if(action==='schedule-ev'||action==='new-ev-schedule'){
+        const ok=await Modal.open({titleText:'Schedule EV Charging',html:`<div class="space-y-2 text-sm">
+          <label class="block">Start<input id="evStart" type="time" value="12:00" class="mt-1 w-full border rounded-lg px-2 py-1.5"></label>
+          <label class="block">End<input   id="evEnd"   type="time" value="15:00" class="mt-1 w-full border rounded-lg px-2 py-1.5"></label>
+          <label class="flex items-center gap-2 mt-1"><input id="evUseSolar" type="checkbox" checked><span>Solar-only (pause if cloudy)</span></label>
+        </div>`,confirmText:'Save'});
+        if(ok){
+          const start=$('#evStart')?.value??'12:00', end=$('#evEnd')?.value??'15:00', solarOnly=$('#evUseSolar')?.checked??true;
+          const list=store.get('ev_schedules',[]); list.push({id:Date.now(),start,end,solarOnly});
+          store.set('ev_schedules',list); renderEVSchedules(); toast('Schedule saved');
+        }
+        Modal.close(ok);
+      }
 
       if(action==='start-charge'){ if(!store.get('toggle_ev_enable',false)){ toast('Enable charger first'); return; } $('#evStatus').textContent='Charging…'; toast('Charging started'); }
-
       if(action==='manage-scenes'){ await Modal.open({titleText:'Scenes',html:`<div class="space-y-2 text-sm"><p>• Eco Noon — prioritize PV, dim lights 20%, raise HVAC 1 °C</p><p>• Away — arm security, off lights, water heater eco</p><p>• Night — dim to 30%, pre-cool bedroom</p></div>`,confirmText:'Close',cancelText:' '}); Modal.close(true); }
-
-      if(action==='scene'){ toast(`Scene applied`); }
-
-      if(action?.startsWith('open-')){ const ok=await Modal.open({titleText:'Device Controls',html:`<div class="space-y-2 text-sm"><label class="block">Setpoint<input type="number" value="24" class="mt-1 w-full border rounded-lg px-2 py-1.5"></label><label class="flex items-center gap-2"><input type="checkbox" checked> Adaptive</label></div>`,confirmText:'Save'}); Modal.close(ok); if(ok) toast('Device updated'); }
-
-      if(action==='view-consumption'){ await Modal.open({titleText:'Consumption Breakdown',html:`<img src="https://dummyimage.com/380x180/edf2f7/0f4c81.png&text=Detail+Breakdown" class="w-full rounded-lg" alt="">`,confirmText:'Close',cancelText:' '}); Modal.close(true); }
-
-      // Security (now under Smart Home)
-      if(action==='arm-away'){ store.set('security_armed',true); $('#secStatus').textContent='Armed (Away)'; toast('Security armed'); }
-      if(action==='disarm'){ store.set('security_armed',false); $('#secStatus').textContent='Disarmed'; toast('Security disarmed'); }
+      if(action==='scene'){ toast('Scene applied'); }
+      if(action==='view-consumption'){ await Modal.open({titleText:'Consumption Breakdown',html:`<div class="w-full h-36 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500">Detailed chart placeholder</div>`,confirmText:'Close',cancelText:' '}); Modal.close(true); }
+      if(action==='arm-away'){ store.set('security_armed',true); $('#secStatus').textContent='Armed (Away)'; toast('Security armed'); renderAISuggestions(); }
+      if(action==='disarm'){ store.set('security_armed',false); $('#secStatus').textContent='Disarmed'; toast('Security disarmed'); renderAISuggestions(); }
       if(action==='open-camera'){ const name=btn.getAttribute('data-camera'); await Modal.open({titleText:`Live · ${name}`,html:`<div class="aspect-video bg-slate-200 rounded-lg flex items-center justify-center text-slate-500"><i class="fa-solid fa-video"></i></div>`,confirmText:'Close',cancelText:' '}); Modal.close(true); }
+      if(action==='goto-ev'){ setActiveRoute('#/ev'); }
 
-      if(action==='export-settings'){ const data={ toggles:Object.keys(localStorage).filter(k=>k.startsWith('toggle_')).reduce((o,k)=>(o[k]=store.get(k),o),{}), settings:Object.keys(localStorage).filter(k=>k.startsWith('setting_')).reduce((o,k)=>(o[k]=store.get(k),o),{}), ev_schedules:store.get('ev_schedules',[]) }; const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='solarmindx-config.json'; a.click(); URL.revokeObjectURL(a.href); toast('Configuration exported'); }
+      if(action==='export-settings'){
+        const data={
+          toggles:  Object.keys(localStorage).filter(k=>k.startsWith('toggle_')).reduce((o,k)=>(o[k]=store.get(k),o),{}),
+          settings: Object.keys(localStorage).filter(k=>k.startsWith('setting_')).reduce((o,k)=>(o[k]=store.get(k),o),{}),
+          ev_schedules: store.get('ev_schedules',[])
+        };
+        const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+        const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='solarmindx-config.json'; a.click(); URL.revokeObjectURL(a.href);
+        toast('Configuration exported');
+      }
     });
 
-    // Notifications
+    /* ---------- notifications ---------- */
     $('#btnNotifications').addEventListener('click', async ()=>{
-      const ok=await Modal.open({titleText:'Notifications',html:`<div class="space-y-2 text-sm"><div class="p-2 bg-slate-50 rounded-lg">12:05 — High PV forecast today. Consider EV charging schedule.</div><div class="p-2 bg-slate-50 rounded-lg">09:10 — Security: Garage camera detected motion (cat).</div></div>`,confirmText:'Clear'}); if(ok){ $('#notifDot').classList.add('hidden'); toast('Notifications cleared'); } Modal.close(ok);
+      const ok=await Modal.open({titleText:'Notifications',html:`<div class="space-y-2 text-sm">
+        <div class="p-2 bg-slate-50 rounded-lg">12:05 — High PV forecast today. Consider EV charging schedule.</div>
+        <div class="p-2 bg-slate-50 rounded-lg">09:10 — Security: Garage camera detected motion (cat).</div>
+      </div>`,confirmText:'Clear'});
+      if(ok){ $('#notifDot').classList.add('hidden'); toast('Notifications cleared'); }
+      Modal.close(ok);
     });
 
-    // EV schedules
+    /* ---------- EV schedules render (single definition) ---------- */
     function renderEVSchedules(){
       const wrap=$('#evSchedules'); if(!wrap) return;
       const list=store.get('ev_schedules',[]);
@@ -438,18 +584,19 @@
       });
     }
 
-    // EV enable toggle listener
+    // EV enable toggle (separate change hook)
     document.addEventListener('change',(e)=>{
       const inp=e.target.closest('input[data-toggle="ev_enable"]'); if(!inp) return;
-      store.set('toggle_ev_enable',inp.checked); styleToggle(inp); $('#evStatus').textContent=inp.checked?'Ready':'Not charging'; toast(inp.checked?'Charger enabled':'Charger disabled');
+      store.set('toggle_ev_enable',inp.checked); styleToggle(inp); $('#evStatus').textContent=inp.checked?'Ready':'Not charging'; toast(inp.checked?'Charger enabled':'Charger disabled'); renderAISuggestions();
     });
 
-    // Charts
-    let flowChart, sourcesChart;
+    /* ---------- charts ---------- */
+    let flowChart, sourcesChart, resizeObs;
     function renderEnergyCharts(range='week'){
       const elFlow=$('#chartFlow'), elSrc=$('#chartSources'); if(!elFlow||!elSrc) return;
-      if(!flowChart) flowChart=echarts.init(elFlow); if(!sourcesChart) sourcesChart=echarts.init(elSrc);
-      const ds={ day:{x:['6a','9a','12p','3p','6p','9p'], solar:[1.2,2.1,3.8,3.5,1.4,0.4], use:[0.9,1.3,2.0,2.4,1.8,1.1], grid:[0.2,0.1,0.0,0.0,0.6,0.7], batt:[0.3,0.2,0.0,0.1,0.2,0.3]},
+      flowChart  = flowChart  || echarts.init(elFlow);
+      sourcesChart = sourcesChart || echarts.init(elSrc);
+      const ds={ day:{x:['6a','9a','12p','3p','6p','9p'], solar:[1.2,2.1,3.8,3.5,1.4,0.4], use:[0.9,1.3,2.0,2.4,1.8,1.1], grid:[0.2,0.1,0,0,0.6,0.7], batt:[0.3,0.2,0,0.1,0.2,0.3]},
                  week:{x:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], solar:[18.2,22.5,19.8,25.1,23.4,21.2,24.7], use:[12.5,14.2,13.1,15.8,14.5,16.7,15.3], grid:[3.2,2.1,2.8,1.5,2.3,4.2,3.1], batt:[2.5,3.8,2.2,4.1,3.5,2.1,3.8]},
                  month:{x:Array.from({length:12},(_,i)=>`W${i+1}`), solar:[14,15,18,20,21,23,22,24,25,23,20,18], use:[11,12,12,13,14,15,16,16,17,16,15,14], grid:[2,2,3,2,2,3,4,3,3,3,2,2], batt:[1,2,2,2,3,3,2,3,3,2,2,2]} }[range];
       const common={tooltip:{trigger:'axis'},legend:{data:['Solar','Consumption','Grid','Battery'],bottom:0},grid:{left:'6%',right:'6%',top:'6%',bottom:'18%'},xAxis:{type:'category',data:ds.x},yAxis:{type:'value',name:'kWh'}};
@@ -460,37 +607,57 @@
         {name:'Battery',type:'line',smooth:true,data:ds.batt,lineStyle:{width:2,type:'dashed',color:'#9B59B6'}}
       ]});
       sourcesChart.setOption({tooltip:{trigger:'item'},series:[{type:'pie',name:'Sources',radius:['60%','80%'],label:{show:false},labelLine:{show:false},data:[{value:65,name:'Solar',itemStyle:{color:'#2ECC71'}},{value:25,name:'Grid',itemStyle:{color:'#0F4C81'}},{value:10,name:'Battery',itemStyle:{color:'#F39C12'}}]}]});
-      new ResizeObserver(()=>{flowChart.resize(); sourcesChart.resize();}).observe(document.body);
-      // range buttons
+      if(!resizeObs){ resizeObs=new ResizeObserver(()=>{flowChart.resize(); sourcesChart.resize();}); resizeObs.observe(document.body); }
       $$('[data-page="#/energy"] [data-range"]').forEach(b=>{
         b.onclick=()=>{ $$('[data-page="#/energy"] [data-range"]').forEach(x=>x.classList.remove('bg-primary','text-white')); b.classList.add('bg-primary','text-white'); renderEnergyCharts(b.getAttribute('data-range')); };
       });
     }
 
-    function wireSecurityStatus(){ // keeps status text accurate after reload
-      const el = $('#secStatus'); if(el) el.textContent = store.get('security_armed',false) ? 'Armed (Away)' : 'Disarmed';
+    /* ---------- AI Advisor (rule-based demo) ---------- */
+    const aiPanel=$('#aiPanel'), aiClose=$('#aiClose'), aiBtn=$('#btnAI'), aiChat=$('#aiChat'), aiInput=$('#aiInput'), aiSend=$('#aiSend');
+    aiBtn.onclick=()=>{ aiPanel.classList.remove('hidden'); aiInput.focus(); };
+    aiClose.onclick=()=>aiPanel.classList.add('hidden');
+    function aiReply(text){ // append bot bubble
+      const row=document.createElement('div'); row.className='flex items-start gap-2';
+      row.innerHTML=`<div class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center"><i class="fa-solid fa-robot text-xs"></i></div>
+                     <div class="bg-slate-100 rounded-xl px-3 py-2">${text}</div>`;
+      aiChat.appendChild(row); aiChat.scrollTop=aiChat.scrollHeight;
     }
-
-    function renderEVSchedules(){ const wrap=$('#evSchedules'); if(!wrap) return; const list=store.get('ev_schedules',[]);
-      if(!list.length){ wrap.innerHTML=`<p class="text-slate-500">No schedules yet.</p>`; return; }
-      wrap.innerHTML=list.map(s=>`
-        <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50">
-          <div><p class="font-medium">${s.start} → ${s.end}</p><p class="text-[11px] text-slate-500">${s.solarOnly?'Solar-only':'Grid allowed'}</p></div>
-          <button class="text-danger text-sm" data-id="${s.id}" data-action="del-ev-schedule">Delete</button>
-        </div>`).join('');
-      $$('#evSchedules [data-action="del-ev-schedule"]').forEach(b=>{
-        b.onclick=()=>{ const id=Number(b.getAttribute('data-id')); const rest=store.get('ev_schedules',[]).filter(x=>x.id!==id); store.set('ev_schedules',rest); renderEVSchedules(); toast('Deleted'); };
-      });
+    function aiUser(text){
+      const row=document.createElement('div'); row.className='flex items-start gap-2 justify-end';
+      row.innerHTML=`<div class="bg-primary text-white rounded-xl px-3 py-2">${text}</div>`;
+      aiChat.appendChild(row); aiChat.scrollTop=aiChat.scrollHeight;
     }
+    function aiHandle(q){
+      const s=q.toLowerCase();
+      if(s.includes('ev') && (s.includes('schedule') || s.includes('charge'))){
+        aiReply('Based on solar forecast, the best charging window is 12–3 PM. Shall I create a schedule now?');
+        return;
+      }
+      if(s.includes('bill') || s.includes('reduce') || s.includes('save')){
+        aiReply('Top 3 quick wins: 1) raise HVAC setpoint by 1 °C daytime, 2) shift heavy appliances after 10 PM, 3) enable EV solar-only charging.');
+        return;
+      }
+      if(s.includes('security') || s.includes('camera') || s.includes('motion')){
+        aiReply('Security is currently ' + (store.get('security_armed',false)?'armed':'disarmed') + '. I can arm it (Away) or open a live camera view if you want.');
+        return;
+      }
+      aiReply('Got it. I can help with energy schedules, smart-home scenes, and security checks. Try: “schedule EV at solar peak”.');
+    }
+    function aiSendNow(){
+      const v=aiInput.value.trim(); if(!v) return;
+      aiUser(v); aiInput.value=''; setTimeout(()=>aiHandle(v),200);
+    }
+    aiSend.onclick=aiSendNow; aiInput.addEventListener('keydown',e=>{ if(e.key==='Enter') aiSendNow(); });
 
-    document.addEventListener('change',(e)=>{
-      const inp=e.target.closest('input[data-toggle="ev_enable"]'); if(!inp) return;
-      store.set('toggle_ev_enable',inp.checked); styleToggle(inp); $('#evStatus').textContent=inp.checked?'Ready':'Not charging'; toast(inp.checked?'Charger enabled':'Charger disabled');
-    });
-
-    function wireToggles(){ $$('input[data-toggle],input[data-setting]').forEach(styleToggle); }
-
-    function init(){ wireToggles(); wireSecurityStatus(); renderEVSchedules(); setActiveRoute(location.hash||'#/dashboard'); }
+    /* ---------- init ---------- */
+    function renderEVSchedulesOnce(){ renderEVSchedules(); } // wrapper to avoid redeclare issues
+    function init(){
+      wireToggles();
+      renderAISuggestions();
+      renderEVSchedulesOnce();
+      setActiveRoute(location.hash||'#/dashboard');
+    }
     window.addEventListener('load', init);
   </script>
 </body>
